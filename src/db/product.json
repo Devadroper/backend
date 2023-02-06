@@ -1,0 +1,24 @@
+[
+  {
+    "id": 0,
+    "status": true,
+    "title": "Papitas",
+    "description": "Fritas",
+    "price": "1190",
+    "thumbnail": "papitas.jpg",
+    "code": "papitasABC",
+    "stock": "15",
+    "category": "ABC"
+  },
+  {
+    "id": 1,
+    "status": true,
+    "title": "Hamburguesa",
+    "description": "A la parrilla",
+    "price": "2400",
+    "thumbnail": "hambur.guesa",
+    "code": "HAM123",
+    "stock": "19",
+    "category": "ABC"
+  }
+]
