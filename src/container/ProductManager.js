@@ -17,9 +17,22 @@ class ProductManager {
   async addProduct(obj) {
     try {
 
+      let status = true
+
+      const read = await fs.readFile(this.path, "utf-8");
+      const prods = JSON.parse(read);
+      prods.map(e => {
+        if (e.code === obj.code) {
+          status = false
+        }
+      })
+
+      if (status === false) {
+        return { error: 'Código identificador existente' }
+      }
+
       if (obj.title && obj.description && obj.code && obj.price && obj.stock && obj.category) {
-        const read = await fs.readFile(this.path, "utf-8");
-        const prods = JSON.parse(read);
+        
         const id = prods.length === 0 ? 0 : Number(prods[prods.length - 1].id) + 1
         prods.push({ id, status: true, ...obj });
         await fs.writeFile(this.path, JSON.stringify(prods, null, 2), "utf-8");

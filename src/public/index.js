@@ -28,6 +28,14 @@ socketClient.on("prods", (e) => {
   });
 });
 
+socketClient.on('alert', (e) => {
+  if (e.error) {
+    alert(e.error)
+  } else {
+    alert(e.message)
+  }
+})
+
 form.onsubmit = (e) => { // form agregar prods
   e.preventDefault(); // evitar funionamiento x default
   const obj = {
@@ -53,4 +61,5 @@ form.onsubmit = (e) => { // form agregar prods
 formDelete.onsubmit = (e) => {
   e.preventDefault();
   socketClient.emit("delete", Number(id.value));
+  id.value = ''
 };
