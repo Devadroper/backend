@@ -1,25 +1,33 @@
 import { Router } from "express";
-import ProductManager from "../container/ProductManager.js";
+import ProductManager from "../Dao/container/ProductManager.js";
+import { productModel } from "../Dao/models/products.model.js";
 
 const prodRouter = new Router();
 
-const path = new ProductManager("./src/db/product.json");
+const path = new ProductManager("./src/Dao/db/product.json");
 
 //  listar todos los prods
 prodRouter.get("/", async (req, res) => {
-  const prods = await path.getProducts();
-  const { limit = 0 } = req.query; // '/products?limit=5'
-  // const limit = req.query.limit
-  if (limit === 0) {
-    res.json(prods);
-  } else if (limit > prods.length) {
-    res.json({ error: "Limit Exceeded" });
+  // const prods = await path.getProducts();
+  // const { limit = 0 } = req.query; // '/products?limit=5'
+  // // const limit = req.query.limit
+  // if (limit === 0) {
+  //   res.json(prods);
+  // } else if (limit > prods.length) {
+  //   res.json({ error: "Limit Exceeded" });
+  // } else {
+  //   let arr = [];
+  //   prods.map((e, i) => {
+  //     if (i < limit) arr.push(e);
+  //   });
+  //   res.json(arr);
+  // }
+
+  const products = await productModel.find({})
+  if (products.length !== 0) {
+    res.json({products})
   } else {
-    let arr = [];
-    prods.map((e, i) => {
-      if (i < limit) arr.push(e);
-    });
-    res.json(arr);
+    res.send('No hay productos')
   }
 });
 
@@ -39,6 +47,8 @@ prodRouter.post("/", async (req, res) => {
   // } else {
   //   res.json({ message: "error" });
   // }
+
+  // Agregar con mongo mediante esquema
 });
 
 // actualizar prod seleccionado

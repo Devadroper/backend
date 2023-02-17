@@ -4,14 +4,15 @@ import prodRouter from "./routes/products.router.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
-import ProductManager from "./container/ProductManager.js";
+import ProductManager from "./Dao/container/ProductManager.js";
+import './Dao/db/dbConfig.js'
 
 export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-const path = new ProductManager("./src/db/product.json");
+const path = new ProductManager("./src/Dao/db/product.json");
 
 // * Evita el error: ANOENT: main.hbs
 app.engine(
