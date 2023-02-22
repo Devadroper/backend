@@ -7,19 +7,25 @@ class CartManager {
 
   async createCart() {
     try {
+
       const read = await fs.readFile(this.path, "utf-8");
       const cart = JSON.parse(read);
       const id = cart.length === 0 ? 0 : Number(cart[cart.length - 1].id) + 1;
       cart.push({ id, products: [] });
       await fs.writeFile(this.path, JSON.stringify(cart, null, 2), "utf-8");
+
       return { message: `carrito creado con el id ${id}` }
+
     } catch (err) {
       console.log(err);
     }
   }
 
-  async deleteCart() {
+  async deleteCart(id) {
     try {
+
+      const deleted = await cartModel.findByIdAndDelete(id)
+      return deleted
 
     } catch (err) {
       console.log(err);
@@ -28,14 +34,23 @@ class CartManager {
 
   async getCart(id) {
     try {
-      const read = await fs.readFile(this.path, "utf-8");
-      const carts = JSON.parse(read);
-      const search = carts.find((e) => e.id === id);
-      if (!!search) {
-        return search.products;
-      } else {
-        return { error: 'carrito inexistente' }
-      }
+
+      // -- // fileSystem // -- //
+
+      // const read = await fs.readFile(this.path, "utf-8");
+      // const carts = JSON.parse(read);
+      // const search = carts.find((e) => e.id === id);
+      // if (!!search) {
+      //   return search.products;
+      // } else {
+      //   return { error: 'carrito inexistente' }
+      // }
+
+      // -- // MongoDB // -- //
+
+      const getCart = cartModel.findById(id)
+      return getCart
+
     } catch (err) {
       console.log(err);
     }
@@ -60,6 +75,7 @@ class CartManager {
       } else {
         return { error: 'No se encuentra el carrito en la base de datos' }
       }
+
     } catch (err) {
       console.log(err);
     }
@@ -83,7 +99,7 @@ class CartManager {
         return { error: 'No se encuentra el carrito en la base de datos' }
       }
     } catch (err) {
-
+      console.log(err);
     }
   }
 }

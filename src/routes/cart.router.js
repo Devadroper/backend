@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CartManager from "../Dao/container/cartManager.js";
+import CartManager from "../Dao/mongoManager/cartManager.js";
 
 const cartRouter = new Router();
 const newCart = new CartManager("./src/db/cart.json");
@@ -13,7 +13,7 @@ cartRouter.post("/", async (req, res) => {
 // Listar prods
 cartRouter.get("/:cid", async (req, res) => {
   const id = req.params;
-  const cart = await newCart.getCart(Number(id.cid));
+  const cart = await newCart.getCart(id.cid);
   res.json(cart);
 });
 

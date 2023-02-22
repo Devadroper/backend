@@ -11,6 +11,8 @@ const stock = document.getElementById("stock");
 const prods = document.getElementById("prods"); // mostrar prods
 const id = document.getElementById("idField");
 
+
+
 socketClient.on("prods", (e) => {
   prods.innerHTML = "";
   e.map((e) => {
@@ -28,15 +30,17 @@ socketClient.on("prods", (e) => {
   });
 });
 
-socketClient.on('alert', (e) => {
+socketClient.on("alert", (e) => {
   if (e.error) {
-    alert(e.error)
+    alert(e.error);
   } else {
-    alert(e.message)
+    alert(e.message);
   }
-})
+});
 
-form.onsubmit = (e) => { // form agregar prods
+
+form.onsubmit = (e) => {
+  // form agregar prods
   e.preventDefault(); // evitar funionamiento x default
   const obj = {
     title: title.value,
@@ -61,5 +65,5 @@ form.onsubmit = (e) => { // form agregar prods
 formDelete.onsubmit = (e) => {
   e.preventDefault();
   socketClient.emit("delete", Number(id.value));
-  id.value = ''
+  id.value = "";
 };

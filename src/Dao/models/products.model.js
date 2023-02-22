@@ -13,9 +13,12 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    status: {
+        type: Boolean,
+        required: true
+    },
     thumbnail: {
         type: String,
-        required: true,
     },
     code: {
         type: String,
@@ -32,4 +35,4 @@ const productSchema = new mongoose.Schema({
     }
 })
 
-export const productModel = mongoose.model('product', productSchema)
+export const productModel = mongoose.model('products', productSchema)
