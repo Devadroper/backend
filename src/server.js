@@ -6,7 +6,7 @@ import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import ProductManager from "./Dao/fileManager/ProductManager.js";
 import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
-import './Dao/dbConfig.js'
+import "./Dao/dbConfig.js";
 
 export const app = express();
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
 const path = new ProductManager("./src/Dao/db/product.json");
-const msgManager = new MsgsManager()
+const msgManager = new MsgsManager();
 
 // * Evita el error: ANOENT: main.hbs
 app.engine(
@@ -54,28 +54,34 @@ export const serverLocal = app.listen("8080", () => {
 const socketServer = new Server(serverLocal);
 
 const prods = await path.getProducts();
-const getMsgs = await msgManager.getMsgs()
+const getMsgs = await msgManager.getMsgs();
 
 socketServer.on("connection", (socket) => {
   console.log(`Usuario conectado ${socket.id}`);
-  socket.emit("prods", prods);
-  socket.emit('msgs', getMsgs)
+
+  socket.on("showMsg", async () => {
+    socket.emit("msgs", getMsgs);
+  });
+
+  socket.on('showProds', async (e) => {
+    socket.emit("prods", prods);
+  })
 
   socket.on("send", async (e) => {
     const posted = await path.addProduct(e);
-    socket.emit('alert', posted)
+    socket.emit("alert", posted);
     socket.emit("prods", prods);
   });
 
   socket.on("delete", async (e) => {
     const deleted = await path.deleteProduct(e);
-    socket.emit('alert', deleted)
+    socket.emit("alert", deleted);
     socket.emit("prods", prods);
   });
 
-  socket.on('msg', async (e) => {
-    const sendMsg = await msgManager.sendMsg(e)
-    socket.emit('alert', sendMsg)
-    socket.emit('msgs', getMsgs)
-  })
+  socket.on("msg", async (e) => {
+    const sendMsg = await msgManager.sendMsg(e);
+    socket.emit("alert", sendMsg);
+    socket.emit("msgs", getMsgs);
+  });
 });

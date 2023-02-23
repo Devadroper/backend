@@ -5,25 +5,36 @@ const chat = document.getElementById("chat");
 const msg = document.getElementById("msg");
 const user = document.getElementById("user");
 
-socketClient.on("msgs", async (e) => {
-    chat.innerHTML = ""
-    await e.map((e) => {
-      let div = document.createElement('div')
-      div.innerHTML = `
-      <p>${e.user}:</p>
-      <p>${e.message}</p>
-      `
-      chat.appendChild(div)
-    })
+socketClient.emit('showMsg')
+
+const render = (e) => {
+  e.forEach((e) => {
+    let div = document.createElement("div");
+    div.innerHTML = `
+    <p>${e.user}:</p>
+    <p>${e.message}</p>
+    `;
+    chat.appendChild(div);
   });
-  
-  formMsg.onsubmit = (e) => {
-    e.preventDefault();
-    const mssg = {
-      user: user.value,
-      message: msg.value,
-    };
-    user.value = ""
-    msg.value = ""
-    socketClient.emit("msg", mssg);
+};
+
+socketClient.on('alert', (e) => {
+  alert('Mensaje enviado')
+  console.log(e);
+})
+
+socketClient.on("msgs", (e) => {
+  chat.innerHTML = "";
+  render(e)
+});
+
+formMsg.onsubmit = (e) => {
+  e.preventDefault();
+  const mssg = {
+    user: user.value,
+    message: msg.value,
   };
+  user.value = "";
+  msg.value = "";
+  socketClient.emit("msg", mssg);
+};

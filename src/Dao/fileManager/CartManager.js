@@ -24,9 +24,11 @@ class CartManager {
   async deleteCart(id) {
     try {
 
-      const deleted = await cartModel.findByIdAndDelete(id)
+      const read = await fs.readFile(this.path, "utf-8")
+      const cart = JSON.parse(read)
+      const deleted = cart.filter(e => e.id !== id)
       return deleted
-
+      
     } catch (err) {
       console.log(err);
     }
@@ -35,21 +37,15 @@ class CartManager {
   async getCart(id) {
     try {
 
-      // -- // fileSystem // -- //
+      const read = await fs.readFile(this.path, "utf-8");
+      const carts = JSON.parse(read);
+      const search = carts.find((e) => e.id === id);
+      if (!!search) {
+        return search.products;
+      } else {
+        return { error: 'carrito inexistente' }
+      }
 
-      // const read = await fs.readFile(this.path, "utf-8");
-      // const carts = JSON.parse(read);
-      // const search = carts.find((e) => e.id === id);
-      // if (!!search) {
-      //   return search.products;
-      // } else {
-      //   return { error: 'carrito inexistente' }
-      // }
-
-      // -- // MongoDB // -- //
-
-      const getCart = cartModel.findById(id)
-      return getCart
 
     } catch (err) {
       console.log(err);

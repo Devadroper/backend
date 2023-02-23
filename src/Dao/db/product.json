@@ -9,5 +9,82 @@
     "code": "asas",
     "stock": "11111",
     "category": "ABC"
+  },
+  {
+    "id": 1,
+    "status": true,
+    "title": "Aventura",
+    "description": "Crash",
+    "price": "1330",
+    "thumbnail": "crash.jpg",
+    "code": "CR4SH1",
+    "stock": "11",
+    "category": "ABC"
+  },
+  {
+    "id": 2,
+    "status": true,
+    "title": "Rayman",
+    "description": "Aventura",
+    "price": "4550",
+    "thumbnail": "rayman.jpg",
+    "code": "r4ym4n",
+    "stock": "44",
+    "category": "ABC"
+  },
+  {
+    "id": 3,
+    "status": true,
+    "title": "Termo",
+    "description": "Lumilagro",
+    "price": "1240",
+    "thumbnail": "termo.png",
+    "code": "T3RM0",
+    "stock": "13",
+    "category": "ABC"
+  },
+  {
+    "id": 4,
+    "status": true,
+    "title": "Carlos Duty",
+    "description": "Aventura",
+    "price": "455",
+    "thumbnail": "carlos.jpg",
+    "code": "C4RL0S",
+    "stock": "41",
+    "category": "ABC"
+  },
+  {
+    "id": 5,
+    "status": true,
+    "title": "ASSSDDDD",
+    "description": "ASD",
+    "price": "123",
+    "thumbnail": "asd.jps",
+    "code": "AS11",
+    "stock": "12",
+    "category": "ABC"
+  },
+  {
+    "id": 6,
+    "status": true,
+    "title": "123",
+    "description": "123",
+    "price": "123",
+    "thumbnail": "123.jpg",
+    "code": "123333",
+    "stock": "123",
+    "category": "ABC"
+  },
+  {
+    "id": 7,
+    "status": true,
+    "title": "Saludo",
+    "description": "Hola",
+    "price": "1",
+    "thumbnail": "hola.jpg",
+    "code": "H0L4",
+    "stock": "1",
+    "category": "ABC"
   }
 ]

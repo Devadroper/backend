@@ -11,7 +11,7 @@ const stock = document.getElementById("stock");
 const prods = document.getElementById("prods"); // mostrar prods
 const id = document.getElementById("idField");
 
-
+socketClient.emit('showProds')
 
 socketClient.on("prods", (e) => {
   prods.innerHTML = "";
@@ -37,7 +37,6 @@ socketClient.on("alert", (e) => {
     alert(e.message);
   }
 });
-
 
 form.onsubmit = (e) => {
   // form agregar prods
