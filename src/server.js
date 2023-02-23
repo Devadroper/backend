@@ -53,34 +53,36 @@ export const serverLocal = app.listen("8080", () => {
 
 const socketServer = new Server(serverLocal);
 
-const prods = await path.getProducts();
-const getMsgs = await msgManager.getMsgs();
-
 socketServer.on("connection", (socket) => {
   console.log(`Usuario conectado ${socket.id}`);
 
-  socket.on("showMsg", async () => {
-    socket.emit("msgs", getMsgs);
+  socket.on("showProds", async () => {
+    const prods = await path.getProducts();
+    socket.emit('prods', prods)
   });
 
-  socket.on('showProds', async (e) => {
-    socket.emit("prods", prods);
+  socket.on('showMsg', async () => {
+    const getMsgs = await msgManager.getMsgs();
+    socket.emit("msgs", getMsgs);
   })
 
   socket.on("send", async (e) => {
     const posted = await path.addProduct(e);
+    const prods = await path.getProducts();
     socket.emit("alert", posted);
     socket.emit("prods", prods);
   });
 
   socket.on("delete", async (e) => {
     const deleted = await path.deleteProduct(e);
+    const prods = await path.getProducts();
     socket.emit("alert", deleted);
     socket.emit("prods", prods);
   });
 
   socket.on("msg", async (e) => {
     const sendMsg = await msgManager.sendMsg(e);
+    const getMsgs = await msgManager.getMsgs();
     socket.emit("alert", sendMsg);
     socket.emit("msgs", getMsgs);
   });

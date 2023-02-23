@@ -86,5 +86,38 @@
     "code": "H0L4",
     "stock": "1",
     "category": "ABC"
+  },
+  {
+    "id": 8,
+    "status": true,
+    "title": "assad",
+    "description": "sdfsdf",
+    "price": "1212",
+    "thumbnail": "1212",
+    "code": "121212111",
+    "stock": "11",
+    "category": "ABC"
+  },
+  {
+    "id": 9,
+    "status": true,
+    "title": "asad",
+    "description": "asdsdf",
+    "price": "412",
+    "thumbnail": "sfsf",
+    "code": "121219",
+    "stock": "12",
+    "category": "ABC"
+  },
+  {
+    "id": 10,
+    "status": true,
+    "title": "sdfgsfdg",
+    "description": "fgafg",
+    "price": "1222",
+    "thumbnail": "123dfdf",
+    "code": "sdfgasdf",
+    "stock": "232",
+    "category": "ABC"
   }
 ]
