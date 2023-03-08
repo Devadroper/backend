@@ -4,7 +4,7 @@ import prodRouter from "./routes/products.router.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
-import ProductManager from "./Dao/fileManager/ProductManager.js";
+import ProductManager from "./Dao/mongoManager/ProductManager.js";
 import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
 import "./Dao/dbConfig.js";
 
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-const path = new ProductManager("./src/Dao/db/product.json");
+const path = new ProductManager();
 const msgManager = new MsgsManager();
 
 // * Evita el error: ANOENT: main.hbs
@@ -42,6 +42,10 @@ app.get("/realtimeproducts", (req, res) => {
 
 app.get("/chat", (req, res) => {
   res.render("chat");
+});
+
+app.get("/products", (req, res) => {
+  res.render("products");
 });
 
 app.use("/api/carts", cartRouter);
@@ -86,4 +90,9 @@ socketServer.on("connection", (socket) => {
     socket.emit("alert", sendMsg);
     socket.emit("msgs", getMsgs);
   });
+
+  socket.on('mongoProds', async () => {
+    const getPags = await path.getPagination(1, 10)
+    socket.emit('prods', getPags)
+  })
 });
