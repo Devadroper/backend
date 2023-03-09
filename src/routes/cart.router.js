@@ -17,10 +17,10 @@ cartRouter.get("/:cid", async (req, res) => {
   res.json(cart);
 });
 
-// * copia el carrito seleccionado
+// * actuliza el carrito por el array del body
 cartRouter.put("/:cid", async (req, res) => {
   const params = req.params;
-  const result = await newCart.removeFromCart(params.cid, params.pid);
+  const result = await newCart.replaceCart(params.cid, req.body)
   res.json(result);
 });
 
@@ -38,7 +38,7 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
   res.json(result);
 });
 
-// * Eliminar prods del array del carrito
+// Eliminar prods del array del carrito
 cartRouter.delete("/:cid/product/:pid", async (req, res) => {
   const params = req.params;
   const result = await newCart.removeFromCart(params.cid, params.pid);

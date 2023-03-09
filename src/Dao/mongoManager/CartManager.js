@@ -26,7 +26,7 @@ class CartManager {
 
   async getCart(id) {
     try {
-      const getCart = cartModel.findById(id).populate('products');
+      const getCart = cartModel.findById(id)
       return getCart;
     } catch (err) {
       console.log(err);
@@ -94,6 +94,17 @@ class CartManager {
       } else {
         return { error: 'Carrito no encontrado' }
       }
+    } catch (err) {
+      console.log(err);
+      return { error: 'Algo salio mal' }
+    }
+  }
+
+  async replaceCart(cid, arr) { 
+    try {
+
+      return { arr, cid }
+
     } catch (err) {
       console.log(err);
       return { error: 'Algo salio mal' }
