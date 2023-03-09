@@ -6,6 +6,7 @@ import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import ProductManager from "./Dao/mongoManager/ProductManager.js";
 import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
+import CartManager from "./Dao/mongoManager/cartManager.js";
 import "./Dao/dbConfig.js";
 
 export const app = express();
@@ -15,6 +16,7 @@ app.use(express.static(__dirname + "/public"));
 
 const path = new ProductManager();
 const msgManager = new MsgsManager();
+const cartManager = new CartManager();
 
 // * Evita el error: ANOENT: main.hbs
 app.engine(
@@ -94,5 +96,9 @@ socketServer.on("connection", (socket) => {
   socket.on('mongoProds', async () => {
     const getPags = await path.getPagination(1, 10)
     socket.emit('prods', getPags)
+  })
+
+  socket.on('addToCart', async (e) => {
+    await cartManager.addToCart('640941ab79758dec3da17c62', e._id)
   })
 });

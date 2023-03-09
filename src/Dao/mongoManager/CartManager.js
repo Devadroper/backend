@@ -10,6 +10,7 @@ class CartManager {
       return cart;
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 
@@ -19,6 +20,7 @@ class CartManager {
       return deleted;
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 
@@ -28,6 +30,7 @@ class CartManager {
       return getCart;
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 
@@ -38,14 +41,15 @@ class CartManager {
       // me fijo si el carrito esta creado
       if (!!getId) {
 
-        getId.products.push({productId: pid, quantity: 1})
-        getId.save()
+        getId.products.push(pid)
+        return getId.save()
       
       } else {
         return { error: "carrito no encontrado" };
       }
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 
@@ -55,6 +59,7 @@ class CartManager {
       
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 
@@ -64,10 +69,11 @@ class CartManager {
       const getId = await cartModel.findById(cid);
 
       if (!!getId) {
-        const isHere = getId.products.find((e) => e.productId === pid);
+        const isHere = getId.products.find((e) => e.toString() === pid);
         if (!!isHere) {
-          getId.products.filter((e) => e.productId !== pid);
-          return await cartModel.findByIdAndUpdate(cid, { products: update })
+          getId.products.splice(getId.products.indexOf(isHere), 1)
+          getId.save()
+          return { message: "Producto borrado con exito", product: pid }
         } else {
           return { error: "No se encuentra el producto en la base de datos" };
         }
@@ -76,14 +82,21 @@ class CartManager {
       }
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 
   async emptyCart(cid) {
     try {
-      return await cartModel.findByIdAndUpdate(cid, { products: [] })
+      const empty = await cartModel.findByIdAndUpdate(cid, { products: [] })
+      if (!!empty) {
+        return { message: "Carrito borrado", cart: [] }
+      } else {
+        return { error: 'Carrito no encontrado' }
+      }
     } catch (err) {
       console.log(err);
+      return { error: 'Algo salio mal' }
     }
   }
 }
