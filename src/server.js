@@ -1,5 +1,5 @@
 import express from "express";
-import cartRouter from "./routes/cart.router.js";
+import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
@@ -50,7 +50,8 @@ app.get("/products", (req, res) => {
   res.render("products");
 });
 
-app.use("/api/carts", cartRouter);
+// app.use("/cart", cartRouter)
+app.use("/api/carts", apiCartRouter);
 app.use("/api/products", prodRouter);
 
 export const serverLocal = app.listen("8080", () => {

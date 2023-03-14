@@ -11,7 +11,7 @@ class ProductManager {
     }
   }
 
-  async getPagination(page = 1, limit = 10, sort = undefined, query = {}) {
+  async getPagination(query = { title: "Papitas" }, limit = 10, page = 1, sort = undefined) {
     try {
       const pags = await productModel.paginate(query, { limit, page, sort })
       return pags

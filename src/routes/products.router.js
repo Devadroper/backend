@@ -7,8 +7,8 @@ const prod = new ProductManager();
 
 //  listar todos los prods
 prodRouter.get("/", async (req, res) => {
-  const { page, limit } = req.query;
-  const result = await prod.getPagination(page, limit);
+  const { query, page, limit, sort } = req.query;
+  const result = await prod.getPagination(query, limit, page, sort);
   const next = result.hasNextPage
     ? `http://localhost:8080/api/products?page=${result.nextPage}`
     : null;

@@ -1,54 +1,54 @@
 import { Router } from "express";
 import CartManager from "../Dao/mongoManager/cartManager.js";
 
-const cartRouter = new Router();
+const apiCartRouter = new Router();
 const newCart = new CartManager();
 
 // Nuevo carrito
-cartRouter.post("/", async (req, res) => {
+apiCartRouter.post("/", async (req, res) => {
   const result = await newCart.createCart();
   res.json(result);
 });
 
 // Listar prods
-cartRouter.get("/:cid", async (req, res) => {
+apiCartRouter.get("/:cid", async (req, res) => {
   const id = req.params;
   const cart = await newCart.getCart(id.cid);
   res.json(cart);
 });
 
-// * actuliza el carrito por el array del body
-cartRouter.put("/:cid", async (req, res) => {
+// actuliza el carrito por el array del body
+apiCartRouter.put("/:cid", async (req, res) => {
   const params = req.params;
   const result = await newCart.replaceCart(params.cid, req.body)
   res.json(result);
 });
 
 // Elimina todo el array
-cartRouter.delete("/:cid", async (req, res) => {
+apiCartRouter.delete("/:cid", async (req, res) => {
   const params = req.params;
   const result = await newCart.emptyCart(params.cid);
   res.json(result);
 });
 
 // Agregar prod al arr de prods dentro del carrito seleccionado
-cartRouter.post("/:cid/product/:pid", async (req, res) => {
+apiCartRouter.post("/:cid/product/:pid", async (req, res) => {
   const params = req.params;
   const result = await newCart.addToCart(params.cid, params.pid);
   res.json(result);
 });
 
 // Eliminar prods del array del carrito
-cartRouter.delete("/:cid/product/:pid", async (req, res) => {
+apiCartRouter.delete("/:cid/product/:pid", async (req, res) => {
   const params = req.params;
   const result = await newCart.removeFromCart(params.cid, params.pid);
   res.json(result);
 });
 
 // * actualiza la quantity
-cartRouter.put("/:cid/product/:pid", async (req, res) => {
+apiCartRouter.put("/:cid/product/:pid", async (req, res) => {
   const params = req.params;
   const result = await newCart.removeFromCart(params.cid, params.pid);
   res.json(result);
 });
-export default cartRouter;
+export default apiCartRouter;

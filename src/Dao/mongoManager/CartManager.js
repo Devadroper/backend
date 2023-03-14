@@ -103,7 +103,12 @@ class CartManager {
   async replaceCart(cid, arr) { 
     try {
 
-      return { arr, cid }
+      const getId = await cartModel.findById(cid);
+      if (!!getId) {
+        getId.products = arr
+        getId.save()
+        return { message: "Carrito reemplazado con exito", cart: arr }
+      }
 
     } catch (err) {
       console.log(err);
