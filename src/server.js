@@ -1,18 +1,34 @@
 import express from "express";
 import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
+import cookieRouter from "./routes/cookie.router.js";
+import views from "./routes/views.router.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import ProductManager from "./Dao/mongoManager/ProductManager.js";
 import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
 import CartManager from "./Dao/mongoManager/cartManager.js";
+import cookieParser from "cookie-parser";
+import session from "express-session";
 import "./Dao/dbConfig.js";
 
 export const app = express();
+const cookieKey = "SignedCookieKey";
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(cookieParser(cookieKey));
+app.use(
+  session({
+    secret: "secretCode",
+    resave: false,
+    saveUninitialized: true,
+    // cookie: { maxAge: 50000 }
+    // store
+  })
+);
 
 const path = new ProductManager();
 const msgManager = new MsgsManager();
@@ -31,24 +47,13 @@ app.engine(
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 
-app.get("/", (req, res) => {
-  res.render("home");
-});
+app.use("/cookies", cookieRouter);
 
 //http://127.0.0.1:8080/
 //http://127.0.0.1:8080/realtimeproducts para entrar.
 
-app.get("/realtimeproducts", (req, res) => {
-  res.render("realTimeProducts");
-});
-
-app.get("/chat", (req, res) => {
-  res.render("chat");
-});
-
-app.get("/products", (req, res) => {
-  res.render("products");
-});
+// views de hbs
+app.use("/", views);
 
 // app.use("/cart", cartRouter)
 app.use("/api/carts", apiCartRouter);
@@ -65,13 +70,13 @@ socketServer.on("connection", (socket) => {
 
   socket.on("showProds", async () => {
     const prods = await path.getProducts();
-    socket.emit('prods', prods)
+    socket.emit("prods", prods);
   });
 
-  socket.on('showMsg', async () => {
+  socket.on("showMsg", async () => {
     const getMsgs = await msgManager.getMsgs();
     socket.emit("msgs", getMsgs);
-  })
+  });
 
   socket.on("send", async (e) => {
     const posted = await path.addProduct(e);
@@ -94,12 +99,12 @@ socketServer.on("connection", (socket) => {
     socket.emit("msgs", getMsgs);
   });
 
-  socket.on('mongoProds', async () => {
-    const getPags = await path.getPagination(1, 10)
-    socket.emit('prods', getPags)
-  })
+  socket.on("mongoProds", async () => {
+    const getPags = await path.getPagination(1, 10);
+    socket.emit("prods", getPags);
+  });
 
-  socket.on('addToCart', async (e) => {
-    await cartManager.addToCart('640941ab79758dec3da17c62', e._id)
-  })
+  socket.on("addToCart", async (e) => {
+    await cartManager.addToCart("640941ab79758dec3da17c62", e._id);
+  });
 });
