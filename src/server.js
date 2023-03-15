@@ -2,6 +2,7 @@ import express from "express";
 import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
 import cookieRouter from "./routes/cookie.router.js";
+import sessionRouter from "./routes/session.router.js"
 import views from "./routes/views.router.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
@@ -11,6 +12,8 @@ import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
 import CartManager from "./Dao/mongoManager/cartManager.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import FileStore from "session-file-store"
+import mongoStore from "connect-mongo"
 import "./Dao/dbConfig.js";
 
 export const app = express();
@@ -20,13 +23,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser(cookieKey));
+
+const fileStore = FileStore(session)
 app.use(
   session({
     secret: "secretCode",
     resave: false,
     saveUninitialized: true,
-    // cookie: { maxAge: 50000 }
-    // store
+    cookie: { maxAge: 50000 },
+    store: new mongoStore({
+      mongoUrl: "mongodb+srv://julianrivarola1:lol1234@cluster0.6fwfoj1.mongodb.net/ecommerce?retryWrites=true&w=majority"
+    })
   })
 );
 
@@ -48,6 +55,7 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 
 app.use("/cookies", cookieRouter);
+app.use('/user', sessionRouter)
 
 //http://127.0.0.1:8080/
 //http://127.0.0.1:8080/realtimeproducts para entrar.
