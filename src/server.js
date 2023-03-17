@@ -9,7 +9,7 @@ import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import ProductManager from "./Dao/mongoManager/ProductManager.js";
 import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
-import CartManager from "./Dao/mongoManager/cartManager.js";
+import CartManager from "./Dao/mongoManager/CartManager.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store"
