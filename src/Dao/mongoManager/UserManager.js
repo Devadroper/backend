@@ -3,17 +3,18 @@ import { userModel } from "../models/users.model.js";
 class UserManager {
   async createUser(user) {
     try {
-      const { email, password } = user;
-      const userExists = await userModel.find({ email, password });
+      const { email } = user;
+      const userExists = await userModel.find({ email });
 
       if (userExists.length !== 0) {
-        const newUser = await userModel.create(user);
-        return newUser;
-      } else {
         return null;
+      } else {
+        const newUser = await userModel.create({ ...user, role: "user"});
+        return newUser;
       }
     } catch (err) {
       console.log(err);
+      return null
     }
   }
 
@@ -29,6 +30,14 @@ class UserManager {
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async checkUser() {
+    try {
+
+    } catch (err) {
+
     }
   }
 }

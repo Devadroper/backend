@@ -9,13 +9,15 @@
 
     <main>
       <h2>Acceso</h2>
-      <form id="loginForm">
-        <p>Usuario:</p>
-        <input type="text" id="user" />
+      <form id="loginForm" action="/login" method="post">
+        <p>Email:</p>
+        <input type="text" name="email" id="user" />
         <p>Contraseña:</p>
-        <input type="text" id="pass" />
+        <input type="password" name="password" id="pass" />
         <button type="submit">Enviar</button>
       </form>
+
+      Si no estas registrado/a <a href="/signUp">click aqui</a>.
 
     </main>
 

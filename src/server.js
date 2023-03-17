@@ -30,7 +30,7 @@ app.use(
     secret: "secretCode",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 50000 },
+    // cookie: { maxAge: 50000 },
     store: new mongoStore({
       mongoUrl: "mongodb+srv://julianrivarola1:lol1234@cluster0.6fwfoj1.mongodb.net/ecommerce?retryWrites=true&w=majority"
     })
@@ -54,14 +54,11 @@ app.engine(
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 
-app.use("/cookies", cookieRouter);
-app.use('/user', sessionRouter)
-
-//http://127.0.0.1:8080/
-//http://127.0.0.1:8080/realtimeproducts para entrar.
-
 // views de hbs
 app.use("/", views);
+
+app.use('/', sessionRouter)
+app.use("/cookies", cookieRouter);
 
 // app.use("/cart", cartRouter)
 app.use("/api/carts", apiCartRouter);
@@ -108,7 +105,7 @@ socketServer.on("connection", (socket) => {
   });
 
   socket.on("mongoProds", async () => {
-    const getPags = await path.getPagination(1, 10);
+    const getPags = await path.getPagination();
     socket.emit("prods", getPags);
   });
 

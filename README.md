@@ -3,13 +3,6 @@
 TODO Mongo II:
 
 - Reemplazar el populate por uno con objetos
-- Pagination: sort y filter
-- Cart view: /:id y que se agregue al /:id cuando
-
-TODO Cookies II:
-
-- Agregar roles
-- view "/products" con mensaje de bienvenida
 
 ## Ultimos Cambios
 

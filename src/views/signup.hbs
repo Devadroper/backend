@@ -7,18 +7,19 @@
   </head>
   <body>
     <main>
+      <a href="/login">Volver atrás</a>
       <h2>Registro</h2>
-      <form id="singUpForm">
+      <form id="singupForm" action="/signup" method="post">
         <p>Nombre/s:</p>
-        <input type="text" id="user" />
+        <input type="text" name="first_name" id="first_name" />
         <p>Apellido/s:</p>
-        <input type="text" id="pass" />
+        <input type="text" name="last_name" id="last_name" />
         <p>Email:</p>
-        <input type="text" id="user" />
+        <input type="text" name='email' id="email" />
         <p>Edad:</p>
-        <input type="text" id="pass" />
+        <input type="text" name='age' id="age" />
         <p>Contraseña:</p>
-        <input type="text" id="user" />
+        <input type="text" name='password' id="password" />
         <button type="submit">Enviar</button>
       </form>
     </main>

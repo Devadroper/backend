@@ -7,15 +7,15 @@ const prod = new ProductManager();
 
 //  listar todos los prods
 prodRouter.get("/", async (req, res) => {
-  const { query, page, limit, sort } = req.query;
-  const result = await prod.getPagination(query, limit, page, sort);
+  const { title, page, limit, sort } = req.query;
+  const result = await prod.getPagination(title, limit, page, sort);
   const next = result.hasNextPage
     ? `http://localhost:8080/api/products?page=${result.nextPage}`
     : null;
   const prev = result.hasPrevPage
     ? `http://localhost:8080/api/products?page=${result.prevPage}`
     : null;
-  res.json({
+  res.status(200).json({
     status: "sucess",
     payload: result.docs,
     totalPages: result.totalPages,
@@ -26,7 +26,6 @@ prodRouter.get("/", async (req, res) => {
     hasNextPage: result.hasNextPage,
     prevLink: prev,
     nextLink: next
-
   });
 });
 
