@@ -18,7 +18,7 @@ socketClient.on("prods", (e) => {
   e.map((e) => {
     let div = document.createElement("div");
     div.innerHTML = `
-    <p>Id: ${e.id}</p>
+    <p>Id: ${e._id}</p>
     <p>Titulo: ${e.title}</p>
     <p>Descripción: ${e.description}</p>
     <p>Precio: ${e.price}</p>

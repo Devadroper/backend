@@ -30,7 +30,7 @@ button {
 #prods div {
   display: flex;
   flex-direction: column;
-  width: 120px;
+  width: auto;
   padding: 10px;
   border: solid 2px #000;
   border-radius: 10px;

@@ -1,4 +1,5 @@
 import { userModel } from "../models/users.model.js";
+import { cartModel } from "../models/carts.model.js";
 
 class UserManager {
   async createUser(user) {
@@ -6,10 +7,14 @@ class UserManager {
       const { email } = user;
       const userExists = await userModel.find({ email });
 
+      const cart = await cartModel.create({
+        products: [],
+      });
+
       if (userExists.length !== 0) {
         return null;
       } else {
-        const newUser = await userModel.create({ ...user, role: "user"});
+        const newUser = await userModel.create({ ...user, role: "user", cart: cart._id });
         return newUser;
       }
     } catch (err) {

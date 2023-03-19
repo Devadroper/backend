@@ -11,15 +11,15 @@
       <h2>Registro</h2>
       <form id="singupForm" action="/signup" method="post">
         <p>Nombre/s:</p>
-        <input type="text" name="first_name" id="first_name" />
+        <input type="text" name="first_name" id="first_name" required />
         <p>Apellido/s:</p>
-        <input type="text" name="last_name" id="last_name" />
+        <input type="text" name="last_name" id="last_name" required />
         <p>Email:</p>
-        <input type="text" name='email' id="email" />
+        <input type="text" name='email' id="email" required />
         <p>Edad:</p>
-        <input type="text" name='age' id="age" />
+        <input type="text" name='age' id="age" required />
         <p>Contraseña:</p>
-        <input type="text" name='password' id="password" />
+        <input type="text" name='password' id="password" required />
         <button type="submit">Enviar</button>
       </form>
     </main>
