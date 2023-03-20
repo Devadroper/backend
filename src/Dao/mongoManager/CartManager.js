@@ -1,7 +1,6 @@
 import { cartModel } from "../models/carts.model.js";
 
 class CartManager {
-
   async createCart() {
     try {
       const cart = await cartModel.create({
@@ -10,7 +9,7 @@ class CartManager {
       return cart;
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 
@@ -20,65 +19,90 @@ class CartManager {
       return deleted;
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 
   async getCart(id) {
     try {
-      const getCart = cartModel.findById(id).populate('products').lean();
+      const getCart = cartModel
+        .findById(id)
+        .populate({ path: "products._id" })
+        .lean();
       return getCart;
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 
   async addToCart(cid, pid) {
     try {
       const getId = await cartModel.findById(cid);
-      
+
       // me fijo si el carrito esta creado
       if (!!getId) {
-        const getProd = getId.find(e => e._id === pid)
+        const getProd = getId.products.find((e) => e._id == pid);
 
-        if (!!getProd) {
-          return { error: "el producto ya esta en el carrito" }
+        if (!getProd) {
+          getId.products.push({ _id: pid, quantity: 1 });
+          await getId.save();
+          return { message: "agregado con exito" };
+        } else {
+          return { error: "el producto ya esta en el carrito" };
         }
-        
-        getId.products.push(pid)
-        getId.save()
-        return { message: "agregado con exito" }
       } else {
         return { error: "carrito no encontrado" };
       }
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 
-  async copyCart(cid) {
-    try {
-      const getCart = await cartModel.findById(cid)
-      
-    } catch (err) {
-      console.log(err);
-      return { error: 'Algo salio mal' }
+  async sumQuantity(cid, pid, quantity) {
+    const getId = await cartModel.findById(cid);
+
+    // me fijo si el carrito esta creado
+    if (!!getId) {
+      const getProd = getId.products.find((e) => e._id == pid);
+
+      if (!getProd) {
+        return { error: "el producto no esta en el carrito" };
+      } else {
+        getProd.quantity += quantity;
+        getId.save();
+        return { message: "se sumo la cantidad indicada al carrito" };
+      }
+    } else {
+      return { error: "carrito no encontrado" };
     }
   }
+  catch(err) {
+    console.log(err);
+    return { error: "Algo salio mal" };
+  }
+
+  // De momento es innecesario
+  // async copyCart(cid) {
+  //   try {
+  //     const getCart = await cartModel.findById(cid);
+  //   } catch (err) {
+  //     console.log(err);
+  //     return { error: "Algo salio mal" };
+  //   }
+  // }
 
   async removeFromCart(cid, pid) {
     try {
-
       const getId = await cartModel.findById(cid);
 
       if (!!getId) {
         const isHere = getId.products.find((e) => e.toString() === pid);
         if (!!isHere) {
-          getId.products.splice(getId.products.indexOf(isHere), 1)
-          getId.save()
-          return { message: "Producto borrado con exito", product: pid }
+          getId.products.splice(getId.products.indexOf(isHere), 1);
+          getId.save();
+          return { message: "Producto borrado con exito", product: pid };
         } else {
           return { error: "No se encuentra el producto en la base de datos" };
         }
@@ -87,37 +111,35 @@ class CartManager {
       }
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 
   async emptyCart(cid) {
     try {
-      const empty = await cartModel.findByIdAndUpdate(cid, { products: [] })
+      const empty = await cartModel.findByIdAndUpdate(cid, { products: [] });
       if (!!empty) {
-        return { message: "Carrito borrado", cart: [] }
+        return { message: "Carrito borrado", cart: [] };
       } else {
-        return { error: 'Carrito no encontrado' }
+        return { error: "Carrito no encontrado" };
       }
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 
-  async replaceCart(cid, arr) { 
+  async replaceCart(cid, arr) {
     try {
-
       const getId = await cartModel.findById(cid);
       if (!!getId) {
-        getId.products = arr
-        getId.save()
-        return { message: "Carrito reemplazado con exito", cart: arr }
+        getId.products = arr;
+        getId.save();
+        return { message: "Carrito reemplazado con exito", cart: arr };
       }
-
     } catch (err) {
       console.log(err);
-      return { error: 'Algo salio mal' }
+      return { error: "Algo salio mal" };
     }
   }
 }

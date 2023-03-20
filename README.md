@@ -1,15 +1,13 @@
 ## Lista de TODO'S
 
-TODO Mongo II:
+Vacia... de momento.
 
-- Reemplazar el populate por uno con objetos
-
-## Ultimos Cambios
+## Entrega Cookies
 
 Dependencias para la entrega de Cookies:
 
 - (I) Instalacion de la dependencia: "Cookie Parser" y "express-session".
-- (II) Instalacion "session-file-store.
+- (II) Instalacion "session-file-store".
 
 Implementaciones:
 

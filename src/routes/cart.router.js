@@ -45,10 +45,11 @@ apiCartRouter.delete("/:cid/product/:pid", async (req, res) => {
   res.json(result);
 });
 
-// * actualiza la quantity
+// actualiza la quantity
 apiCartRouter.put("/:cid/product/:pid", async (req, res) => {
   const params = req.params;
-  const result = await newCart.removeFromCart(params.cid, params.pid);
+  const { quantity } = req.body
+  const result = await newCart.sumQuantity(params.cid, params.pid, quantity);
   res.json(result);
 });
 export default apiCartRouter;

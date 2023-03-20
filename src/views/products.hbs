@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+    <title>Productos</title>
 </head>
 <body>
 
     <main>
 
         {{#if user}}
-        <h2>Bienvenido, tu id es: <span id="idUSer">{{user._id}}</span>!</h2>
-        <p>Tu el id de tu carrito es: <span id="idCart">{{user.cart}}</span></p>
+        <h2>Bienvenido {{user.first_name}}, tu id es: <span id="idUSer">{{user._id}}</span>!</h2>
+        <p>El id de tu carrito es: <span id="idCart">{{user.cart}}</span></p>
         <a href="http://127.0.0.1:8080/cart/{{user.cart}}">Ir al carrito</a>
         <a href="/login" class="logout">Logout</a>
         {{/if}}
