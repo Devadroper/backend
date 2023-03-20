@@ -12,24 +12,25 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   age: {
     type: Number,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   role: {
     type: String,
-    required: true
+    required: true,
   },
   cart: {
-    type: Array,
-    required: true
-  }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "products",
+    default: [],
+  },
 });
 
 export const userModel = mongoose.model("users", userSchema);

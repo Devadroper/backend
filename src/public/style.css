@@ -20,14 +20,14 @@ button {
   margin-top: 20px;
   width: 100px;
 }
-#prods {
+#prods, .cart {
   margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
 }
-#prods div {
+#prods div, .prodCart {
   display: flex;
   flex-direction: column;
   width: auto;

@@ -1,8 +1,10 @@
 import { Router } from "express"
 import CartManager from "../Dao/mongoManager/CartManager.js"
+import UserManager from "../Dao/mongoManager/UserManager.js"
 
 const views = Router()
 const cartManager = new CartManager()
+const userManager = new UserManager()
 
 views.get("/", (req, res) => {
     res.render("home");
@@ -24,8 +26,8 @@ views.get("/cart/:id", async (req, res) => {
   res.render("cart", {cart: await cartManager.getCart(req.params.id) });
 });
 
-views.get("/products/:id", (req, res) => {
-  res.render("products", { user: req.params.id });
+views.get("/products/:id", async (req, res) => {
+  res.render("products", { user: await userManager.checkUser(req.params.id) });
 });
 
 // render desde session.router.js para borrar la cookie

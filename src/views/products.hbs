@@ -12,7 +12,9 @@
     <main>
 
         {{#if user}}
-        <h2>Bienvenido, tu id es: {{ user }}!</h2>
+        <h2>Bienvenido, tu id es: <span id="idUSer">{{user._id}}</span>!</h2>
+        <p>Tu el id de tu carrito es: <span id="idCart">{{user.cart}}</span></p>
+        <a href="http://127.0.0.1:8080/cart/{{user.cart}}">Ir al carrito</a>
         <a href="/login" class="logout">Logout</a>
         {{/if}}
 

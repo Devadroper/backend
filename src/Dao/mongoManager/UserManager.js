@@ -38,11 +38,12 @@ class UserManager {
     }
   }
 
-  async checkUser() {
+  async checkUser(id) {
     try {
-
+      const user = await userModel.findById(id).lean()
+      return user
     } catch (err) {
-
+      console.log(err);
     }
   }
 }

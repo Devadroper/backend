@@ -1,10 +1,19 @@
 const socketClient = io();
 
 const prods = document.getElementById("prods");
+const idCart = document.getElementById('idCart').innerText
 
 socketClient.emit('mongoProds')
 
 let arr = []
+
+socketClient.on('alert', (e) => {
+  if (!!e.error) {
+    alert(e.error)
+  } else {
+    alert(e.message)
+  }
+})
 
 const render = (e) => {
   e.docs.forEach((elem) => {
@@ -17,7 +26,7 @@ const render = (e) => {
     price.innerHTML = elem.price
     btn.innerText = "Agregar al carrito"
     btn.addEventListener('click', () => {
-      socketClient.emit('addToCart', elem)
+      socketClient.emit('addToCart', { obj: elem, idCart: idCart })
     })
     div.appendChild(title)
     div.appendChild(price)

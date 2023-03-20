@@ -26,7 +26,7 @@ class CartManager {
 
   async getCart(id) {
     try {
-      const getCart = cartModel.findById(id).populate('products');
+      const getCart = cartModel.findById(id).populate('products').lean();
       return getCart;
     } catch (err) {
       console.log(err);
@@ -40,10 +40,15 @@ class CartManager {
       
       // me fijo si el carrito esta creado
       if (!!getId) {
+        const getProd = getId.find(e => e._id === pid)
 
+        if (!!getProd) {
+          return { error: "el producto ya esta en el carrito" }
+        }
+        
         getId.products.push(pid)
-        return getId.save()
-      
+        getId.save()
+        return { message: "agregado con exito" }
       } else {
         return { error: "carrito no encontrado" };
       }

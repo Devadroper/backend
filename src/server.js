@@ -110,6 +110,7 @@ socketServer.on("connection", (socket) => {
   });
 
   socket.on("addToCart", async (e) => {
-    await cartManager.addToCart("640941ab79758dec3da17c62", e._id);
+    const cart = await cartManager.addToCart(e.idCart, e.obj._id);
+    socket.emit("alert", cart);
   });
 });
