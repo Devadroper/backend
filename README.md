@@ -2,7 +2,7 @@
 
 - Hasheo del password x
 - Passport para login/register x
-- Auth de Github
+- Auth de Github (revisar utils/passport.js) 1:45:24 farid
 
 ## Entrega Cookies
 
@@ -24,3 +24,4 @@ Implementaciones:
 Dependencias para la entrega de Cookies:
 
 - (I) Instalacion de la dependencia: "bcrypt", "passport" y "passport-local"
+- (II) Instalacion de la dependencia: "passport-github2" y "jsonwebtoken"

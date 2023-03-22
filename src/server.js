@@ -3,6 +3,7 @@ import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
 import cookieRouter from "./routes/cookie.router.js";
 import sessionRouter from "./routes/session.router.js"
+import jwtRouter from "./routes/jwt.router.js";
 import views from "./routes/views.router.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
@@ -64,6 +65,7 @@ app.use("/", views);
 
 app.use('/', sessionRouter)
 app.use("/cookies", cookieRouter);
+app.use('/jwt', jwtRouter)
 
 // app.use("/cart", cartRouter)
 app.use("/api/carts", apiCartRouter);

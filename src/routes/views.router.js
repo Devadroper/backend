@@ -1,6 +1,7 @@
 import { Router } from "express"
 import CartManager from "../Dao/mongoManager/CartManager.js"
 import UserManager from "../Dao/mongoManager/UserManager.js"
+import session from 'express-session'
 
 const views = Router()
 const cartManager = new CartManager()
@@ -19,7 +20,8 @@ views.get("/chat", (req, res) => {
 });
 
 views.get("/products", (req, res) => {
-  res.render("products");
+  const { user } = req.session
+  res.render("products", user);
 });
 
 views.get("/cart/:id", async (req, res) => {
