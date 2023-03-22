@@ -14,7 +14,9 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store"
 import mongoStore from "connect-mongo"
+import passport from "passport";
 import "./Dao/dbConfig.js";
+import './utils/passport.js'
 
 export const app = express();
 const cookieKey = "SignedCookieKey";
@@ -23,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser(cookieKey));
+app.use(passport.initialize())
 
 const fileStore = FileStore(session)
 app.use(
@@ -36,6 +39,8 @@ app.use(
     })
   })
 );
+
+app.use(passport.session())
 
 const path = new ProductManager();
 const msgManager = new MsgsManager();

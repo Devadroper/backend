@@ -1,20 +1,21 @@
 import { userModel } from "../models/users.model.js";
 import { cartModel } from "../models/carts.model.js";
+import { comparePasswords, hashPassword } from "../../utils.js"
 
 class UserManager {
   async createUser(user) {
     try {
-      const { email } = user;
+      const { email, password } = user;
       const userExists = await userModel.find({ email });
-
-      const cart = await cartModel.create({
-        products: [],
-      });
 
       if (userExists.length !== 0) {
         return null;
       } else {
-        const newUser = await userModel.create({ ...user, role: "user", cart: cart._id });
+        const hashNewPass = await hashPassword(password)
+        const cart = await cartModel.create({
+          products: [],
+        });
+        const newUser = await userModel.create({ ...user, password: hashNewPass, role: "user", cart: cart._id });
         return newUser;
       }
     } catch (err) {
@@ -26,10 +27,13 @@ class UserManager {
   async loginUser(user) {
     try {
       const { email, password } = user;
-      const username = await userModel.find({ email, password });
+      const username = await userModel.find({ email });
 
       if (username.length !== 0) {
-        return username;
+        const isPass = comparePasswords(password, username[0].password)
+        if (isPass) {
+          return username
+        }
       } else {
         return null;
       }

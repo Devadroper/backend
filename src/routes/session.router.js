@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 import UserManager from "../Dao/mongoManager/UserManager.js";
 
 const sessionRouter = Router();
@@ -29,18 +30,21 @@ sessionRouter.post("/login", async (req, res) => {
   }
 });
 
-sessionRouter.post("/signup", async (req, res) => {
-  const newUser = await userManager.createUser(req.body);
-  if (newUser) {
-    res.redirect("/login");
-  } else {
-    res.redirect("/errorSignup");
-  }
+// Sin passport
+// sessionRouter.post("/signup", async (req, res) => {
+//   const newUser = await userManager.createUser(req.body);
+//   if (newUser) {
+//     res.redirect("/login");
+//   } else {
+//     res.redirect("/errorSignup");
+//   }
+// });
 
-  //   const { user, pass } = req.body;
-  //   req.session.user = user;
-  //   req.session.pass = pass;
-  //   res.json({ message: `Bienvenido ${user}` });
-});
+// Con passport
+sessionRouter.post("/signup", passport.authenticate('singup', {
+  failureRedirect: '/errorLogin',
+  successRedirect: '/products',
+  passReqToCallback: true
+}))
 
 export default sessionRouter;

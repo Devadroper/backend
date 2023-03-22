@@ -1,6 +1,8 @@
 ## Lista de TODO'S
 
-Vacia... de momento.
+- Hasheo del password x
+- Passport para login/register x
+- Auth de Github
 
 ## Entrega Cookies
 
@@ -16,3 +18,9 @@ Implementaciones:
 - Modelo user.model.js.
 - Carpeta "sessions" para grabar en mongo los usuarios conectados.
 - Ruta views.router.js para agregar todas las views que se reflejan de .hbs.
+
+## Entrega Auth
+
+Dependencias para la entrega de Cookies:
+
+- (I) Instalacion de la dependencia: "bcrypt", "passport" y "passport-local"
