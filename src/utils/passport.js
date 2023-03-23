@@ -6,8 +6,6 @@ import { cartModel } from "../Dao/models/carts.model.js";
 import { hashPassword } from "../utils.js";
 import "dotenv/config";
 
- // TODO resolver el error cuando me logeo con github
-
 passport.use(
   "singup",
   new LocalStrategy(
@@ -43,7 +41,7 @@ passport.use(
     {
       scope: [ 'user:email' ],
       clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GIVITH_CLIENT_SECRET,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "http://localhost:8080/login/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {

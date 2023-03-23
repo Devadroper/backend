@@ -3,10 +3,31 @@
   padding: 0;
   font-family: sans-serif;
 }
+header {
+  border-bottom: 2px solid #000;
+  margin-bottom: 20px;
+}
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.profileImg {
+  width: 50px;
+  border-radius: 50px;
+}
+h2 {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
 h3 {
   display: flex;
   justify-content: center;
   margin: 20px 0;
+}
+.data {
+  margin-bottom: 20px;
 }
 form {
   display: flex;
@@ -23,6 +44,7 @@ button {
 #prods, .cart {
   margin-top: 20px;
   display: flex;
+  text-align: center;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
@@ -47,10 +69,4 @@ button {
   border-radius: 5px;
   margin: 0 auto;
   margin-bottom: 5px;
-}
-.logout {
-  position: absolute;
-  padding: 5px;
-  top: 5px;
-  right: 5px;
 }

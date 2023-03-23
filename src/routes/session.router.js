@@ -43,7 +43,7 @@ sessionRouter.post("/login", async (req, res) => {
 // Con passport
 sessionRouter.post("/signup", passport.authenticate('singup', {
   failureRedirect: '/errorLogin',
-  successRedirect: '/products',
+  successRedirect: '/login',
   passReqToCallback: true
 }))
 
