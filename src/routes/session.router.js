@@ -47,10 +47,11 @@ sessionRouter.post("/signup", passport.authenticate('singup', {
   passReqToCallback: true
 }))
 
-sessionRouter.get('/singup/github', passport.authenticate('github', {scope: ['user:email']}))
+sessionRouter.get('/login/github', passport.authenticate('github', {scope: ['user:email']  , session: false}))
 
-sessionRouter.get('/login/github', passport.authenticate('github'), (req,res) => {
-  res.redirect('/products')
+sessionRouter.get('/login/github/callback', passport.authenticate('github'), (req,res) => {
+  req.session.email = req.user.email
+  res.redirect(`/products/${req.session.passport.user}`)
 })
 
 export default sessionRouter;

@@ -38,16 +38,17 @@ passport.use(
 );
 
 passport.use(
-  "github",
+  'github',
   new GithubStrategy(
     {
+      scope: [ 'user:email' ],
       clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/login/github",
+      clientSecret: process.env.GIVITH_CLIENT_SECRET,
+      callbackURL: "http://localhost:8080/login/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      const user = await userModel.findOne({ email: profile._json.email });
+      // uso profile.emails[0].value porque el profile._json.email no funciona
+      const user = await userModel.findOne({ email: profile.emails[0].value });
       if (!user) {
         
         const cart = await cartModel.create({
@@ -55,8 +56,8 @@ passport.use(
           });
         const newUser = userModel.create({
             first_name: profile._json.name ? profile._json.name.split(' ')[0] : profile._json.login ,
-            last_name: profile._json.name ?  profile._json.name.split(' ')[1] : ' ' ,
-            email: profile._json.email || ' ',
+            last_name: profile._json.name ?  profile._json.name.split(' ')[1] === null ? ' ' : ' ' : ' ' ,
+            email: profile.emails[0].value || ' ',
             password: ' ',
             photo: profile._json.avatar_url,
             cart: cart,
@@ -66,13 +67,13 @@ passport.use(
       } else {
         done(null, user)
       }
-      done(null, true);
     }
   )
 );
 
 passport.serializeUser((user, done) => {
   done(null, user._id);
+
 });
 
 passport.deserializeUser(async (id, done) => {
