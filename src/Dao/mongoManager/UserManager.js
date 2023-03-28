@@ -30,7 +30,7 @@ class UserManager {
       const username = await userModel.find({ email });
 
       if (username.length !== 0) {
-        const isPass = comparePasswords(password, username[0].password)
+        const isPass = await comparePasswords(password, username[0].password)
         if (isPass) {
           return username
         }

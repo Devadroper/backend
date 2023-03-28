@@ -1,27 +1,32 @@
-import express from "express";
 import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
+import apiSessionsRouter from "./routes/apiSession.router.js"
 import cookieRouter from "./routes/cookie.router.js";
 import sessionRouter from "./routes/session.router.js"
 import jwtRouter from "./routes/jwt.router.js";
 import views from "./routes/views.router.js";
-import handlebars from "express-handlebars";
-import { __dirname } from "./utils.js";
-import { Server } from "socket.io";
 import ProductManager from "./Dao/mongoManager/ProductManager.js";
 import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
 import CartManager from "./Dao/mongoManager/CartManager.js";
+import express from "express";
+import handlebars from "express-handlebars";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store"
 import mongoStore from "connect-mongo"
 import passport from "passport";
+import cors from 'cors'
+import { __dirname } from "./utils.js";
+import { Server } from "socket.io";
 import "./Dao/dbConfig.js";
 import './utils/passport.js'
+import 'dotenv/config'
 
 export const app = express();
 const cookieKey = "SignedCookieKey";
+const PORT = process.env.PORT
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
@@ -70,8 +75,9 @@ app.use('/jwt', jwtRouter)
 // app.use("/cart", cartRouter)
 app.use("/api/carts", apiCartRouter);
 app.use("/api/products", prodRouter);
+app.use('/api/sessions', apiSessionsRouter)
 
-export const serverLocal = app.listen("8080", () => {
+export const serverLocal = app.listen(PORT, () => {
   console.log("200 OK");
 });
 

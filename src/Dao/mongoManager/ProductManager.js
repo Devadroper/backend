@@ -55,7 +55,7 @@ class ProductManager {
   async deleteProduct(id) {
     try {
       const deleted = await productModel.findByIdAndDelete(id);
-      return deleted;
+      return { message: 'Producto eliminado', prod: deleted };
     } catch (err) {
       console.log(err);
     }
