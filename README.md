@@ -1,10 +1,3 @@
-# JAVI LEE ESTA PARTE
-
-- Crea una github app, esta explicado en <a href="https://coderhouse.zoom.us/rec/play/KQaSX9IU2NofIXdSIx0mEK1gLtJhJAdXBeKTyNfx-y8f4FvzTAozFKgqRoX4DCiwCaBwAPZ139rkH5g5.uHNsG8lwBOpULfVX?continueMode=true&_x_zm_rtaid=vVBmo6HSTYCPDE6U4nbosQ.1678826780639.2e3736dc4499ac0465f6453017dc1a3c&_x_zm_rhtaid=828">esta clase</a>, minuto 20:45.
-- Despues agrega las dos claves que te va a dar la github app en el .env.
-
-<hr>
-
 ## Lista de TODO'S
 
 ### ENTREGA ACTUAL
