@@ -51,7 +51,7 @@ prodRouter.put("/:pid", async (req, res) => {
   const id = req.params;
   const field = Object.keys(req.body).toString();
   const elem = Object.values(req.body).toString();
-  const result = await prod.updateProduct(Number(id.pid), field, elem);
+  const result = await prod.updateProduct(id.pid, field, elem);
   res.json(result);
 });
 
