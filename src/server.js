@@ -1,13 +1,11 @@
 import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
 import apiSessionsRouter from "./routes/apiSession.router.js"
-import cookieRouter from "./routes/cookie.router.js";
 import sessionRouter from "./routes/session.router.js"
-import jwtRouter from "./routes/jwt.router.js";
 import views from "./routes/views.router.js";
-import ProductManager from "./Dao/mongoManager/ProductManager.js";
-import MsgsManager from "./Dao/mongoManager/MsgsManager.js";
-import CartManager from "./Dao/mongoManager/CartManager.js";
+import ProductManager from "./dao/repositories/mongoManager/ProductManager.js";
+import MsgsManager from "./dao/repositories/mongoManager/MsgsManager.js";
+import CartManager from "./dao/repositories/mongoManager/CartManager.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import cookieParser from "cookie-parser";
@@ -18,9 +16,9 @@ import passport from "passport";
 import cors from 'cors'
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
-import "./Dao/dbConfig.js";
+import "./config/dbConfig.js";
 import './utils/passport.js'
-import 'dotenv/config'
+import config from "./config/config.js";
 
 export const app = express();
 const cookieKey = "SignedCookieKey";
@@ -41,7 +39,7 @@ app.use(
     saveUninitialized: true,
     // cookie: { maxAge: 50000 },
     store: new mongoStore({
-      mongoUrl: "mongodb+srv://julianrivarola1:lol1234@cluster0.6fwfoj1.mongodb.net/ecommerce?retryWrites=true&w=majority"
+      mongoUrl: config.mongoUrl
     })
   })
 );
@@ -69,8 +67,6 @@ app.set("views", __dirname + "/views");
 app.use("/", views);
 
 app.use('/', sessionRouter)
-app.use("/cookies", cookieRouter);
-app.use('/jwt', jwtRouter)
 
 // app.use("/cart", cartRouter)
 app.use("/api/carts", apiCartRouter);

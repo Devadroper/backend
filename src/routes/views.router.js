@@ -1,6 +1,6 @@
 import { Router } from "express"
-import CartManager from "../Dao/mongoManager/CartManager.js"
-import UserManager from "../Dao/mongoManager/UserManager.js"
+import CartManager from "../dao/repositories/mongoManager/CartManager.js"
+import UserManager from "../dao/repositories/mongoManager/UserManager.js"
 import session from 'express-session'
 
 const views = Router()

@@ -1,8 +1,8 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
-import { userModel } from "../Dao/models/users.model.js";
-import { cartModel } from "../Dao/models/carts.model.js";
+import { userModel } from "../dao/models/users.model.js";
+import { cartModel } from "../dao/models/carts.model.js";
 import { hashPassword } from "../utils.js";
 import "dotenv/config";
 

@@ -1,6 +1,6 @@
-import { userModel } from "../models/users.model.js";
-import { cartModel } from "../models/carts.model.js";
-import { comparePasswords, hashPassword } from "../../utils.js"
+import { userModel } from "../../models/users.model.js";
+import { cartModel } from "../../models/carts.model.js";
+import { comparePasswords, hashPassword } from "../../../utils.js"
 
 class UserManager {
   async createUser(user) {

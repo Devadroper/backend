@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
+import config from './config.js';
 
 // Usuario y clave del usuario adminw
 
-const URI = 'mongodb+srv://julianrivarola1:lol1234@cluster0.6fwfoj1.mongodb.net/ecommerce?retryWrites=true&w=majority'
+const URI = config.mongoUrl;
 
 // Conexion con el servidor de mongoose
 
