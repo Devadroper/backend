@@ -1,9 +1,11 @@
 import { Router } from "express";
+import { isUser } from '../middlewares/role.middleware.js'
 import {
   addToCart,
   createCart,
   emptyCart,
   getCart,
+  purchaseCart,
   removeFromCart,
   replaceCart,
   sumQuantity,
@@ -12,24 +14,27 @@ import {
 const router = new Router();
 
 // Nuevo carrito
-router.post("/", createCart);
+router.post("/", isUser, createCart);
 
 // Listar prods
-router.get("/:cid", getCart);
+router.get("/:cid", isUser, getCart);
 
 // Actuliza el carrito por el array del body
-router.put("/:cid", replaceCart);
+router.put("/:cid", isUser, replaceCart);
 
 // Elimina todo el array
-router.delete("/:cid", emptyCart);
+router.delete("/:cid", isUser, emptyCart);
+
+// Elimina todo el array
+router.delete("/:cid/purchase", isUser, purchaseCart);
 
 // Agregar prod al arr de prods dentro del carrito seleccionado
-router.post("/:cid/product/:pid", addToCart);
+router.post("/:cid/product/:pid", isUser, addToCart);
 
 // Actualiza la quantity
-router.put("/:cid/product/:pid", sumQuantity);
+router.put("/:cid/product/:pid", isUser, sumQuantity);
 
 // Eliminar prods del array del carrito
-router.delete("/:cid/product/:pid", removeFromCart);
+router.delete("/:cid/product/:pid", isUser, removeFromCart);
 
 export default router;

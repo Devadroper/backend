@@ -19,6 +19,12 @@ export const replaceCart = async (req, res) => {
   res.json(result);
 };
 
+export const purchaseCart = async (req, res) => {
+  const params = req.params;
+  const result = await cart.purchase(params.cid);
+  res.json(result);
+};
+
 export const emptyCart = async (req, res) => {
   const params = req.params;
   const result = await cart.emptyCart(params.cid);

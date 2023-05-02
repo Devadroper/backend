@@ -1,12 +1,5 @@
 ## Lista de TODO'S
 
-### ENTREGA ACTUAL
-- Login con JWT o session (ver cual seria mejor).
-- (solo JWT) estrategia current y devolver al usuario el token.
-- ruta /api/sessions/current para devolver al usuario una respuesta.
-### ENTREGA SIGUIENTE
-- Capas de routing, controlador, dao y vistas delegadas.
-- Hacer un .env x
 ### PRE ENTREGA PROYECTO FINAL
 - Factory (opcional), DAO y DTO.
 - El DAO sera devuelto por Factory u otro.

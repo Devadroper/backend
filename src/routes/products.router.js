@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { addProd, deleteProd, getById, getProds, updateProd } from '../controllers/products.controller.js'
+import { isAdmin } from "../middlewares/role.middleware.js";
 
 const prodRouter = new Router();
 
@@ -10,12 +11,12 @@ prodRouter.get("/", getProds);
 prodRouter.get("/:pid", getById);
 
 // agregar prod
-prodRouter.post("/", addProd);
+prodRouter.post("/", isAdmin, addProd);
 
 // actualizar prod seleccionado
-prodRouter.put("/:pid", updateProd);
+prodRouter.put("/:pid", isAdmin, updateProd);
 
 // borrar prod seleccionado
-prodRouter.delete("/:pid", deleteProd);
+prodRouter.delete("/:pid", isAdmin, deleteProd);
 
 export default prodRouter;

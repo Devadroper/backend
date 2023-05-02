@@ -129,6 +129,16 @@ class CartManager {
     }
   }
 
+  async purchase(cid) {
+    try {
+      const cart = cartModel.findById(cid)
+      return cart
+    } catch (err) {
+      console.log(err);
+      return { error: "Algo salio mal" };
+    }
+  }
+
   async replaceCart(cid, arr) {
     try {
       const getId = await cartModel.findById(cid);

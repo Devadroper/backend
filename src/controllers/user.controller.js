@@ -1,9 +1,11 @@
 import UserManager from "../dao/repositories/mongoManager/UserManager.js";
+import UserDTO from '../dao/dto/UserDTO.js'
 
 const userManager = new UserManager()
 
 export const githubCallback = (req, res) => {
   req.session.email = req.user.email;
+  req.session.role = req.user.role
   res.redirect(`/products/${req.session.passport.user}`);
 };
 
@@ -25,7 +27,7 @@ export const loginPost = async (req, res) => {
 
   if (user) {
     req.session.email = email;
-    req.session.password = password;
+    req.session.role = user.role
     res.redirect(`/products/${user[0].id}`);
   } else {
     res.redirect("/errorLogin");
@@ -34,7 +36,8 @@ export const loginPost = async (req, res) => {
 
 export const getCurrent = (req, res) => {
   const user = req.session
-  res.json(user)
+  const userDTO = new UserDTO(user)
+  res.json(userDTO)
 }
 
 // Login sin passport
