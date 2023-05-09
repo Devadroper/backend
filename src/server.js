@@ -1,8 +1,9 @@
 import apiCartRouter from "./routes/cart.router.js";
 import prodRouter from "./routes/products.router.js";
-import apiSessionsRouter from "./routes/apiSession.router.js"
-import sessionRouter from "./routes/session.router.js"
+import apiSessionsRouter from "./routes/apiSession.router.js";
+import sessionRouter from "./routes/session.router.js";
 import views from "./routes/views.router.js";
+import loggerTest from "./routes/test.router.js";
 import ProductManager from "./dao/repositories/mongoManager/ProductManager.js";
 import MsgsManager from "./dao/repositories/mongoManager/MsgsManager.js";
 import CartManager from "./dao/repositories/mongoManager/CartManager.js";
@@ -10,41 +11,39 @@ import express from "express";
 import handlebars from "express-handlebars";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import FileStore from "session-file-store"
-import mongoStore from "connect-mongo"
+import FileStore from "session-file-store";
+import mongoStore from "connect-mongo";
 import passport from "passport";
-import cors from 'cors'
+import cors from "cors";
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import "./config/dbConfig.js";
-import './utils/passport.js'
+import "./utils/passport.js";
 import config from "./config/config.js";
 
 export const app = express();
 const cookieKey = "SignedCookieKey";
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser(cookieKey));
-app.use(passport.initialize())
-
-const fileStore = FileStore(session)
+app.use(passport.initialize());
+const fileStore = FileStore(session);
 app.use(
   session({
     secret: "secretCode",
     resave: false,
     saveUninitialized: true,
-    // cookie: { maxAge: 50000 },
+    // cookie: { maxAge: 500 },
     store: new mongoStore({
-      mongoUrl: config.mongoUrl
-    })
+      mongoUrl: config.mongoUrl,
+    }),
   })
 );
-
-app.use(passport.session())
+app.use(passport.session());
 
 const path = new ProductManager();
 const msgManager = new MsgsManager();
@@ -66,12 +65,13 @@ app.set("views", __dirname + "/views");
 // views de hbs
 app.use("/", views);
 
-app.use('/', sessionRouter)
+app.use("/", sessionRouter);
 
 // app.use("/cart", cartRouter)
 app.use("/api/carts", apiCartRouter);
 app.use("/api/products", prodRouter);
-app.use('/api/sessions', apiSessionsRouter)
+app.use("/api/sessions", apiSessionsRouter);
+app.use("/api/test", loggerTest);
 
 export const serverLocal = app.listen(PORT, () => {
   console.log("200 OK");

@@ -19,6 +19,9 @@
             <p>Cantidad: {{quantity}}</p>
           </div>
         {{/each}}
+        {{#if cart.products}}
+        <a href='/cart/{{cart._id}}/purchase'>Finalizar compra</a>
+        {{/if}}
       </section>
 
     </main>

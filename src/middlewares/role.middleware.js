@@ -9,7 +9,6 @@ export const isUser = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  console.log(req);
     const role = req.session.role;
     if (role === "admin") {
       next();

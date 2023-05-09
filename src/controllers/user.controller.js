@@ -4,6 +4,7 @@ import UserDTO from '../dao/dto/UserDTO.js'
 const userManager = new UserManager()
 
 export const githubCallback = (req, res) => {
+  console.log(req.user);
   req.session.email = req.user.email;
   req.session.role = req.user.role
   res.redirect(`/products/${req.session.passport.user}`);
@@ -35,6 +36,7 @@ export const loginPost = async (req, res) => {
 }
 
 export const getCurrent = (req, res) => {
+  console.log(req.session);
   const user = req.session
   const userDTO = new UserDTO(user)
   res.json(userDTO)

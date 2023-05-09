@@ -9,8 +9,9 @@ export const createCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
   const id = req.params.cid;
-  const cart = await cart.getCart(id);
-  res.json(cart);
+  console.log(id);
+  const myCart = await cart.getCart(id);
+  res.json(myCart);
 };
 
 export const replaceCart = async (req, res) => {

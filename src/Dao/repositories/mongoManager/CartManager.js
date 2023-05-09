@@ -1,4 +1,6 @@
 import { cartModel } from "../../models/carts.model.js";
+import { ticketModel } from "../../models/ticket.model.js";
+import { errors } from "../../../utils/errors.js";
 
 class CartManager {
   async createCart() {
@@ -9,7 +11,7 @@ class CartManager {
       return cart;
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
@@ -19,7 +21,7 @@ class CartManager {
       return deleted;
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
@@ -29,10 +31,11 @@ class CartManager {
         .findById(id)
         .populate({ path: "products._id" })
         .lean();
+      console.log(getCart);
       return getCart;
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
@@ -49,14 +52,14 @@ class CartManager {
           await getId.save();
           return { message: "agregado con exito" };
         } else {
-          return { error: "el producto ya esta en el carrito" };
+          return errors.productAlreadyExists;
         }
       } else {
-        return { error: "carrito no encontrado" };
+        return errors.invalidCart;
       }
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
@@ -80,18 +83,8 @@ class CartManager {
   }
   catch(err) {
     console.log(err);
-    return { error: "Algo salio mal" };
+    return errors.unknownError;
   }
-
-  // De momento es innecesario
-  // async copyCart(cid) {
-  //   try {
-  //     const getCart = await cartModel.findById(cid);
-  //   } catch (err) {
-  //     console.log(err);
-  //     return { error: "Algo salio mal" };
-  //   }
-  // }
 
   async removeFromCart(cid, pid) {
     try {
@@ -104,14 +97,14 @@ class CartManager {
           getId.save();
           return { message: "Producto borrado con exito", product: pid };
         } else {
-          return { error: "No se encuentra el producto en la base de datos" };
+          return errors.productNotFound;
         }
       } else {
-        return { error: "No se encuentra el carrito en la base de datos" };
+        return errors.invalidCart;
       }
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
@@ -121,21 +114,56 @@ class CartManager {
       if (!!empty) {
         return { message: "Carrito borrado", cart: [] };
       } else {
-        return { error: "Carrito no encontrado" };
+        return errors.invalidCart;
       }
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
   async purchase(cid) {
     try {
-      const cart = cartModel.findById(cid)
-      return cart
+      const cart = await cartModel
+        .findById(cid)
+        .populate({ path: "products._id" });
+      const productsToPurchase = [];
+      const productsNotPurchased = [];
+
+      for (const product of cart.products) {
+        console.log(product);
+        const availableStock = product.stock;
+        const requestedQuantity = product.quantity;
+        if (availableStock >= requestedQuantity) {
+          productsToPurchase.push(product);
+          product.product.stock -= requestedQuantity;
+          await product.product.save();
+        } else {
+          productsNotPurchased.push(product._id);
+        }
+      }
+
+      cart.products = productsNotPurchased;
+      await cart.save();
+
+      if (productsNotPurchased.length > 0) {
+        return {
+          error: "No se pudieron procesar todos los productos.",
+          productsNotPurchased,
+        };
+      }
+
+      const ticket = await ticketModel.create({
+        code: "ABC" + Math.random() * 2,
+        purchase_datetime: new Date(),
+        amount: 1,
+        purchaser: cid,
+      });
+
+      return ticket;
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 
@@ -149,7 +177,7 @@ class CartManager {
       }
     } catch (err) {
       console.log(err);
-      return { error: "Algo salio mal" };
+      return errors.unknownError;
     }
   }
 }

@@ -2,6 +2,7 @@ import { Router } from "express"
 import CartManager from "../dao/repositories/mongoManager/CartManager.js"
 import UserManager from "../dao/repositories/mongoManager/UserManager.js"
 import session from 'express-session'
+import { mocking } from "../controllers/products.controller.js"
 
 const views = Router()
 const cartManager = new CartManager()
@@ -32,6 +33,10 @@ views.get("/products/:id", async (req, res) => {
   res.render("products", { user: await userManager.checkUser(req.params.id) });
 });
 
+views.get('/cart/:id/purchase', async (req, res) => {
+  res.render('purchase')
+})
+
 // render desde session.router.js para borrar la cookie
 // views.get("/login", (req, res) => {
 //   res.render("login");
@@ -52,5 +57,7 @@ views.get("/errorSignUp", (req, res) => {
 views.get("/perfil", (req, res) => {
   res.render("perfil");
 });
+
+views.get("/mockingproducts", mocking);
 
 export default views

@@ -1,11 +1,6 @@
 ## Lista de TODO'S
 
 ### PRE ENTREGA PROYECTO FINAL
-- Factory (opcional), DAO y DTO.
-- El DAO sera devuelto por Factory u otro.
-- Implementar Repository con el DAO.
-- /current, enviar un DTO al usuario.
-- Middleware para la estrategia "current". Admin: crea, actualiza y elimina. User: Enviar mensajes, agregar prods al cart.
 - Crear un modelo de Ticket.
 - Implementar /:cid/purchase
 

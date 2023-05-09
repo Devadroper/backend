@@ -1,4 +1,5 @@
 import ProductManager from "../dao/repositories/mongoManager/ProductManager.js";
+import { faker } from "@faker-js/faker";
 
 const prod = new ProductManager();
 
@@ -52,4 +53,14 @@ export const deleteProd = async (req, res) => {
   const id = req.params;
   const result = await prod.deleteProduct(id.pid);
   res.json(result);
+};
+
+export const mocking = (req, res) => {
+  const mocks = [];
+  while (mocks.length !== 100) {
+    const { price, product } = faker.commerce;
+    const obj = { name: product(), price: price() };
+    mocks.push(obj)
+  }
+  res.json(mocks);
 };
