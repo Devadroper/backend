@@ -50,6 +50,15 @@ class UserManager {
       console.log(err);
     }
   }
+
+  async checkByEmail(email) {
+    try {
+      const user = await userModel.find({ email })
+      return user[0]
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 export default UserManager;

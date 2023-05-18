@@ -58,6 +58,10 @@ views.get("/perfil", (req, res) => {
   res.render("perfil");
 });
 
+views.get('/reset-password', (req, res) => {
+  res.render('reset')
+})
+
 views.get("/mockingproducts", mocking);
 
 export default views
