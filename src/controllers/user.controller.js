@@ -7,6 +7,127 @@ import config from "../config/config.js";
 
 const userManager = new UserManager();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: Operaciones relacionadas con los usuarios
+ */
+
+/**
+ * @swagger
+ * /api/github/callback:
+ *   get:
+ *     summary: Callback de GitHub
+ *     tags: [Users]
+ *     description: Callback utilizado para autenticación con GitHub.
+ *     responses:
+ *       500:
+ *         description: Error en el callback de GitHub
+ *
+ * /api/login:
+ *   get:
+ *     summary: Obtener la página de inicio de sesión
+ *     tags: [Users]
+ *     description: Retorna la página de inicio de sesión.
+ *     responses:
+ *       200:
+ *         description: Página de inicio de sesión
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags: [Users]
+ *     description: Inicia sesión con las credenciales proporcionadas.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginRequest'
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserDTO'
+ *       302:
+ *         description: Redireccionamiento
+ *       500:
+ *         description: Error al realizar POST en el inicio de sesión
+ *
+ * /api/current:
+ *   get:
+ *     summary: Obtener el usuario actual
+ *     tags: [Users]
+ *     description: Retorna la información del usuario actual.
+ *     responses:
+ *       200:
+ *         description: Usuario actual
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserDTO'
+ *       500:
+ *         description: Error al obtener el usuario actual
+ *
+ * /api/request-password:
+ *   post:
+ *     summary: Solicitar restablecimiento de contraseña
+ *     tags: [Users]
+ *     description: Envía un correo electrónico para restablecer la contraseña del usuario.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResetPasswordRequest'
+ *     responses:
+ *       200:
+ *         description: Correo electrónico de restablecimiento de contraseña enviado
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error al solicitar el restablecimiento de contraseña
+ *
+ * /api/reset-password:
+ *   put:
+ *     summary: Restablecer contraseña
+ *     tags: [Users]
+ *     description: Restablece la contraseña del usuario utilizando un token válido.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResetPasswordRequest'
+ *     responses:
+ *       200:
+ *         description: Contraseña restablecida exitosamente
+ *       400:
+ *         description: Token inválido o enlace expirado
+ *
+ * /api/update-password:
+ *   put:
+ *     summary: Actualizar contraseña
+ *     tags: [Users]
+ *     description: Actualiza la contraseña del usuario actual.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdatePasswordRequest'
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada exitosamente
+ *       400:
+ *         description: La contraseña antigua no coincide
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error al actualizar la contraseña
+ */
+
 export const githubCallback = (req, res) => {
   try {
     console.log(req.user);

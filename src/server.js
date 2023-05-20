@@ -7,6 +7,7 @@ import loggerTest from "./routes/test.router.js";
 import ProductManager from "./dao/repositories/mongoManager/ProductManager.js";
 import MsgsManager from "./dao/repositories/mongoManager/MsgsManager.js";
 import CartManager from "./dao/repositories/mongoManager/CartManager.js";
+import { serve, setup } from 'swagger-ui-express'
 import express from "express";
 import handlebars from "express-handlebars";
 import cookieParser from "cookie-parser";
@@ -15,6 +16,7 @@ import FileStore from "session-file-store";
 import mongoStore from "connect-mongo";
 import passport from "passport";
 import cors from "cors";
+import swaggerSpec from './config/swaggerConfig.js'
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import "./config/dbConfig.js";
@@ -61,6 +63,8 @@ app.engine(
 // *
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
+
+app.use('/apidocs', serve, setup(swaggerSpec))
 
 // views de hbs
 app.use("/", views);
