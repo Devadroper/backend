@@ -1,16 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperar contraseña</title>
-</head>
-<body>
-    <form id="resetPass" action="/reset-password" method="post">
-        <p>¿Cual es tu mail?</p>
-        <input type="text" name="email" id="email">
-        <button type="submit">Enviar</button>
-    </form>
-</body>
-</html>
+{{!-- resetPassword.hbs --}}
+{{! Import jwt, hashPassword, comparePasswords, userManager before using them }}
+
+{{! Display a form for the user to reset their password }}
+<form action="/reset-password" method="POST">
+  <label for="token">Token de restablecimiento de contraseña</label>
+  <input type="text" id="token" name="token" value={{token}} required>
+
+  <label for="password">Nueva contraseña</label>
+  <input type="password" id="password" name="password" required>
+
+  <button type="submit">Restablecer contraseña</button>
+</form>
+
+{{! Handle success and error messages from the server after resetting the password }}
+
+{{! Success message --}}
+{{#if successMessage}}
+  <p>{{successMessage}}</p>
+{{/if}}
+
+{{! Error messages --}}
+{{#if errorMessage}}
+  <p>{{errorMessage}}</p>
+{{/if}}
+
+{{! Note: You may need to adjust the form's action attribute and the names of the input fields based on your server's routing and data structure. }}

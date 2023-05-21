@@ -2,11 +2,11 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import { sync } from 'glob'
 
 // Obtén la lista de archivos de rutas que cumplen con el patrón "*.router.js"
-const routeFiles = sync('./src/controllers/*.controller.js');
+const routeFiles = sync('./src/docs/**/*.yaml');
 
 // Configuración de Swagger
 const swaggerOptions = {
-  definition: {
+  swaggerDefinition: {
     openapi: '3.0.1',
     info: {
       title: 'API',
@@ -19,4 +19,4 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-export default swaggerSpec
+export default swaggerSpec;

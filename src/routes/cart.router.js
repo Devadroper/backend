@@ -25,7 +25,7 @@ router.put("/:cid", isUser, replaceCart);
 // Elimina todo el array
 router.delete("/:cid", isUser, emptyCart);
 
-router.get("/:cid/purchase", purchaseCart);
+router.get("/:cid/purchase", isUser, purchaseCart);
 
 // Agregar prod al arr de prods dentro del carrito seleccionado
 router.post("/:cid/product/:pid", isUser, addToCart);

@@ -21,7 +21,8 @@ sessionRouter.get('/login/github/callback', passport.authenticate('github'), git
 
 // Ruta para restablecer la contraseña
 // sessionRouter.post('/reset-password', resetPassword);
-sessionRouter.post('/reset-password', requestPasswordReset);
+sessionRouter.post('/request-password', requestPasswordReset);
+sessionRouter.post('/reset-password', resetPassword);
 
 // Ruta para actualizar la contraseña
 sessionRouter.post('/update-password', updatePassword);

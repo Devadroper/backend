@@ -81,10 +81,7 @@ class CartManager {
       return { error: "carrito no encontrado" };
     }
   }
-  catch(err) {
-    console.log(err);
-    return errors.unknownError;
-  }
+  
 
   async removeFromCart(cid, pid) {
     try {
@@ -129,17 +126,16 @@ class CartManager {
         .populate({ path: "products._id" });
       const productsToPurchase = [];
       const productsNotPurchased = [];
-
       for (const product of cart.products) {
-        console.log(product);
-        const availableStock = product.stock;
+        const availableStock = product._id.stock;
         const requestedQuantity = product.quantity;
+        console.log(product);
         if (availableStock >= requestedQuantity) {
           productsToPurchase.push(product);
-          product.product.stock -= requestedQuantity;
-          await product.product.save();
+          product._id.stock -= requestedQuantity;
+          await product._id.save();
         } else {
-          productsNotPurchased.push(product._id);
+          productsNotPurchased.push({_id: product._id, quantity: product.quantity});
         }
       }
 
@@ -147,6 +143,7 @@ class CartManager {
       await cart.save();
 
       if (productsNotPurchased.length > 0) {
+
         return {
           error: "No se pudieron procesar todos los productos.",
           productsNotPurchased,

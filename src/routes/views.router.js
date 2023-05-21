@@ -59,7 +59,15 @@ views.get("/perfil", (req, res) => {
 });
 
 views.get('/reset-password', (req, res) => {
-  res.render('reset')
+  res.render('requestReset')
+})
+
+views.get('/reset-password/:token', (req, res) => {
+  res.render('reset', { token: req.params.token })
+})
+
+views.get('/update-password', (req, res) => {
+  res.render('update')
 })
 
 views.get("/mockingproducts", mocking);
