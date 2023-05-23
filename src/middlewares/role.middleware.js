@@ -26,7 +26,7 @@ export const isPremium = (req, res, next) => {
   }
 };
 
-const checkOwner = async (req, res, next) => {
+export const checkOwner = async (req, res, next) => {
   const userId = req.user.id; // Obtén el ID del usuario de la solicitud (asumiendo que estás utilizando un middleware de autenticación para establecer el usuario en el objeto de solicitud)
 
   try {
@@ -59,5 +59,3 @@ const checkOwner = async (req, res, next) => {
       .json({ message: "Error al verificar los permisos del propietario" });
   }
 };
-
-export default checkOwner;

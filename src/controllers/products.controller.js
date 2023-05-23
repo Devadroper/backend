@@ -36,7 +36,7 @@ export const getById = async (req, res) => {
   try {
     const params = req.params;
     const prods = await prod.getProductById(params.pid);
-    res.json(prods);
+    res.status(200).json(prods);
   } catch (error) {
     logger.error("Error al obtener el producto por ID:", error);
     res.status(500).json({ error: "Error al obtener el producto por ID" });
@@ -69,7 +69,7 @@ export const updateProd = async (req, res) => {
     const field = Object.keys(req.body).toString();
     const elem = Object.values(req.body).toString();
     const result = await prod.updateProduct(id.pid, field, elem);
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     logger.error("Error al actualizar el producto:", error);
     res.status(500).json({ error: "Error al actualizar el producto" });
@@ -80,7 +80,7 @@ export const deleteProd = async (req, res) => {
   try {
     const id = req.params;
     const result = await prod.deleteProduct(id.pid);
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     logger.error("Error al eliminar el producto:", error);
     res.status(500).json({ error: "Error al eliminar el producto" });
@@ -95,7 +95,7 @@ export const mocking = (req, res) => {
       const obj = { name: product(), price: price() };
       mocks.push(obj);
     }
-    res.json(mocks);
+    res.status(200).json(mocks);
   } catch (error) {
     logger.error("Error al generar datos falsos:", error);
     res.status(500).json({ error: "Error al generar datos falsos" });

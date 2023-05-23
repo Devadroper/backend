@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { addProd, deleteProd, getById, getProds, updateProd } from '../controllers/products.controller.js'
-import checkOwner, { isAdmin, isPremium } from "../middlewares/role.middleware.js";
+import { checkOwner, isAdmin, isPremium } from "../middlewares/role.middleware.js";
 
+// api/products
 const prodRouter = new Router();
 
 //  listar todos los prods
