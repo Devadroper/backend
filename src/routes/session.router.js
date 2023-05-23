@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { githubCallback, loginGet, loginPost, requestPasswordReset, resetPassword, updatePassword } from "../controllers/user.controller.js";
+import { changeRole, githubCallback, loginGet, loginPost, requestPasswordReset, resetPassword, updatePassword } from "../controllers/user.controller.js";
 
 const sessionRouter = Router();
 
@@ -26,8 +26,5 @@ sessionRouter.post('/reset-password', resetPassword);
 
 // Ruta para actualizar la contraseña
 sessionRouter.post('/update-password', updatePassword);
-
-// Ruta para cambiar el rol de un usuario
-// sessionRouter.put('/change-role/:userId', changeUserRole);
 
 export default sessionRouter;

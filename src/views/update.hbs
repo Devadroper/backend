@@ -1,7 +1,4 @@
-{{!-- updatePassword.hbs --}}
-{{! Import userManager, comparePasswords, hashPassword before using them }}
-
-{{! Display a form for the user to update their password }}
+{{! Form para actulizar la password desde el user }}
 <form action="/update-password" method="POST">
   <label for="oldPassword">Contraseña anterior</label>
   <input type="password" id="oldPassword" name="oldPassword" required>
@@ -11,17 +8,3 @@
 
   <button type="submit">Actualizar contraseña</button>
 </form>
-
-{{! Handle success and error messages from the server after updating the password }}
-
-{{! Success message --}}
-{{#if successMessage}}
-  <p>{{successMessage}}</p>
-{{/if}}
-
-{{! Error messages --}}
-{{#if errorMessage}}
-  <p>{{errorMessage}}</p>
-{{/if}}
-
-{{! Note: You may need to adjust the form's action attribute and the names of the input fields based on your server's routing and data structure. }}

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { addProd, deleteProd, getById, getProds, updateProd } from '../controllers/products.controller.js'
-import { isAdmin } from "../middlewares/role.middleware.js";
+import checkOwner, { isAdmin, isPremium } from "../middlewares/role.middleware.js";
 
 const prodRouter = new Router();
 
@@ -11,12 +11,12 @@ prodRouter.get("/", getProds);
 prodRouter.get("/:pid", getById);
 
 // agregar prod
-prodRouter.post("/", isAdmin, addProd);
+prodRouter.post("/", isPremium, addProd);
 
 // actualizar prod seleccionado
-prodRouter.put("/:pid", isAdmin, updateProd);
+prodRouter.put("/:pid", checkOwner, updateProd);
 
 // borrar prod seleccionado
-prodRouter.delete("/:pid", isAdmin, deleteProd);
+prodRouter.delete("/:pid", checkOwner, deleteProd);
 
 export default prodRouter;

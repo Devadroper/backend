@@ -36,17 +36,6 @@ export const replaceCart = async (req, res) => {
   }
 };
 
-export const purchaseCart = async (req, res) => {
-  try {
-    const params = req.params;
-    const result = await cart.purchase(params.cid);
-    res.json(result);
-  } catch (error) {
-    logger.error("Error al realizar la compra:", error);
-    res.status(500).json({ error: "Error al realizar la compra" });
-  }
-};
-
 export const emptyCart = async (req, res) => {
   try {
     const params = req.params;
@@ -60,8 +49,17 @@ export const emptyCart = async (req, res) => {
 
 export const addToCart = async (req, res) => {
   try {
-    const params = req.params;
-    const result = await cart.addToCart(params.cid, params.pid);
+    // Obtener el ID del usuario autenticado
+    const { cid, pid } = req.params;
+    const uid = req.user.id;
+
+    // Verificar si el usuario ya ha creado el producto
+    const existingProduct = await prod.getProductByUserId(uid)
+    if (existingProduct) {
+      return res.status(400).json({ message: "El usuario ya ha creado este producto" });
+    }
+
+    const result = await cart.addToCart(cid, pid);
     res.json(result);
   } catch (error) {
     logger.error("Error al agregar al carrito:", error);
@@ -89,5 +87,16 @@ export const sumQuantity = async (req, res) => {
   } catch (error) {
     logger.error("Error al sumar la cantidad:", error);
     res.status(500).json({ error: "Error al sumar la cantidad" });
+  }
+};
+
+export const purchaseCart = async (req, res) => {
+  try {
+    const params = req.params;
+    const result = await cart.purchase(params.cid);
+    res.json(result);
+  } catch (error) {
+    logger.error("Error al realizar la compra:", error);
+    res.status(500).json({ error: "Error al realizar la compra" });
   }
 };

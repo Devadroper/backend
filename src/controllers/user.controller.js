@@ -10,7 +10,6 @@ const userManager = new UserManager();
 
 export const githubCallback = (req, res) => {
   try {
-    console.log(req.user);
     req.session.email = req.user.email;
     req.session.role = req.user.role;
     res.redirect(`/products/${req.session.passport.user}`);
@@ -56,7 +55,6 @@ export const loginPost = async (req, res) => {
 
 export const getCurrent = (req, res) => {
   try {
-    console.log(req.session);
     const user = req.session;
     const userDTO = new UserDTO(user);
     res.json(userDTO);
@@ -79,13 +77,10 @@ export const requestPasswordReset = async (req, res) => {
   const { email } = req.body;
   const user = await userManager.checkByEmail(email);
 
-  // Generar token único y aleatorio
-  const resetToken = generateToken(user);
-
   try {
-    // Guardar el token en el usuario
-    
     if (user) {
+      // Generar token único y aleatorio
+      const resetToken = generateToken(user);
       user.resetToken = resetToken;
       await user.save();
     } else {
@@ -115,20 +110,24 @@ export const resetPassword = async (req, res) => {
 
   try {
     // Verificar la validez del token y su fecha de expiración
-    const decodedToken = jwt.verify(token, config.secretJwt);
-    // Verificar si el token ha expirado
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (decodedToken.exp < currentTime) {
-      return res.status(400).json({ message: 'El enlace de restablecimiento de contraseña ha expirado' });
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(token, config.secretJwt);
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(400).send(`El enlace de restablecimiento de contraseña ha expirado, click <a href="/reset-password"/>aqui</a> para volver a a pedir un token.`)
+      } else {
+        throw err;
+      }
     }
 
     // Actualizar la contraseña del usuario
-    const userId = decodedToken.userId;
+    const userId = decodedToken.id;
     const hashedPassword = await hashPassword(password);
     // Actualizar la contraseña del usuario
     const user = await userManager.checkUser(userId)
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
     // Verificar si la nueva contraseña es igual a la contraseña actual
@@ -137,12 +136,12 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'No puedes utilizar la misma contraseña anterior' });
     }
 
-    // Actualizar la contraseña del usuario en la base de datos
-    user.password = hashedPassword;
-    await user.save();
+    // Cambiar la contraseña del usuario utilizando la función del manager
+    await userManager.changePassword(userId, password);
 
     res.json({ message: 'Contraseña restablecida exitosamente' });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: 'Token inválido' });
   }
 };
@@ -171,5 +170,24 @@ export const updatePassword = async (req, res) => {
     res.json({ message: 'Contraseña actualizada exitosamente' });
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar la contraseña' });
+  }
+};
+
+export const changeRole = async (req, res) => {
+  const userId = req.params.uid;
+
+  try {
+    const user = await userManager.checkUser(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const updatedUser = await userManager.changeUserRole(userId);
+
+    res.json({ message: 'Rol de usuario actualizado exitosamente', user: updatedUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error al actualizar el rol de usuario' });
   }
 };

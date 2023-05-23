@@ -45,9 +45,15 @@ export const getById = async (req, res) => {
 
 export const addProd = async (req, res) => {
   try {
-    const response = await prod.addProduct(req.body);
+    // Obtener el ID del usuario autenticado
+    const userId = req.user.id;
+
+    // Agregar el ID del usuario al objeto del producto
+    const productData = { ...req.body, owner: userId };
+
+    const response = await prod.addProduct(productData);
     if (response) {
-      res.status(200).json({ message: "producto agregado", prod: req.body });
+      res.status(200).json({ message: "producto agregado", prod: productData });
     } else {
       res.json({ message: "error" });
     }

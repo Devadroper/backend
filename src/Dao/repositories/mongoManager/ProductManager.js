@@ -43,6 +43,15 @@ class ProductManager {
     }
   }
 
+  async getProductByUserId(id) {
+    try {
+      const products = await productModel.find({ owner: id });
+      return products;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async updateProduct(id, field, elem) {
     try {
       const update = await productModel.findOneAndUpdate(id, { $set: { [field]: elem } });
