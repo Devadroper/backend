@@ -1,6 +1,7 @@
 import ProductManager from "../dao/repositories/mongoManager/ProductManager.js";
 import { faker } from "@faker-js/faker";
 import { logger } from "../utils/logger.js";
+import { errors } from "../utils/errors.js";
 
 const prod = new ProductManager();
 
@@ -28,7 +29,7 @@ export const getProds = async (req, res) => {
     });
   } catch (error) {
     logger.error("Error al obtener los productos:", error);
-    res.status(500).json({ error: "Error al obtener los productos" });
+    res.status(500).json({ error: errors.unknownError });
   }
 };
 
@@ -39,7 +40,7 @@ export const getById = async (req, res) => {
     res.status(200).json(prods);
   } catch (error) {
     logger.error("Error al obtener el producto por ID:", error);
-    res.status(500).json({ error: "Error al obtener el producto por ID" });
+    res.status(500).json({ error: errors.unknownError });
   }
 };
 
@@ -59,7 +60,7 @@ export const addProd = async (req, res) => {
     }
   } catch (error) {
     logger.error("Error al agregar el producto:", error);
-    res.status(500).json({ error: "Error al agregar el producto" });
+    res.status(500).json({ error: errors.unknownError });
   }
 };
 
@@ -72,7 +73,7 @@ export const updateProd = async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     logger.error("Error al actualizar el producto:", error);
-    res.status(500).json({ error: "Error al actualizar el producto" });
+    res.status(500).json({ error: errors.unknownError });
   }
 };
 
@@ -83,7 +84,7 @@ export const deleteProd = async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     logger.error("Error al eliminar el producto:", error);
-    res.status(500).json({ error: "Error al eliminar el producto" });
+    res.status(500).json({ error: errors.unknownError });
   }
 };
 
@@ -91,13 +92,20 @@ export const mocking = (req, res) => {
   try {
     const mocks = [];
     while (mocks.length !== 100) {
-      const { price, product } = faker.commerce;
-      const obj = { name: product(), price: price() };
+      const { price, product, productDescription, department } = faker.commerce;
+      const obj = {
+        title: product(),
+        description: productDescription(),
+        price: price(),
+        status: true,
+        thumbnails: [],
+        category: department(),
+      };
       mocks.push(obj);
     }
     res.status(200).json(mocks);
   } catch (error) {
     logger.error("Error al generar datos falsos:", error);
-    res.status(500).json({ error: "Error al generar datos falsos" });
+    res.status(500).json({ error: errors.unknownError });
   }
 };
