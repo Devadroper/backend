@@ -1,11 +1,15 @@
 FROM node:16-alpine
 
-WORKDIR /app
+WORKDIR /
 
-COPY package*.json ./
+RUN mkdir /app
+
+COPY package*.json /app/
 
 RUN npm ci --omit=dev
 
-COPY . .
+COPY . /app/
+
+WORKDIR /app
 
 CMD [ "npm", "start" ]
