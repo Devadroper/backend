@@ -2,6 +2,7 @@ import ProductManager from "../dao/repositories/mongoManager/ProductManager.js";
 import { faker } from "@faker-js/faker";
 import { logger } from "../utils/logger.js";
 import { errors } from "../utils/errors.js";
+import { transporter } from "./user.controller.js";
 
 const prod = new ProductManager();
 
@@ -46,11 +47,10 @@ export const getById = async (req, res) => {
 
 export const addProd = async (req, res) => {
   try {
-    // Obtener el ID del usuario autenticado
-    const userId = req.user.id;
+    // Si el usuario no es admin guardar el mail del usuario premium
+    const owner = req.user.role === 'admin' ? req.user.role : req.user.email
 
-    // Agregar el ID del usuario al objeto del producto
-    const productData = { ...req.body, owner: userId };
+    const productData = { ...req.body, owner: owner };
 
     const response = await prod.addProduct(productData);
     if (response) {
@@ -79,12 +79,27 @@ export const updateProd = async (req, res) => {
 
 export const deleteProd = async (req, res) => {
   try {
-    const id = req.params;
-    const result = await prod.deleteProduct(id.pid);
-    res.status(200).json(result);
+    const { pid } = req.params;
+
+    const deletedProduct = await MongoManager.deleteProduct(pid);
+
+    // si el dueño del prod no es el admin mandar un mail registrado
+    if (deletedProduct.owner !== "admin") {
+
+      const mailOptions = {
+        from: 'noreply@example.com',
+        to: deletedProduct.owner,
+        subject: 'Eliminación de producto',
+        text: 'El producto que has publicado ha sido eliminado.'
+      };
+
+      await transporter.sendMail(mailOptions);
+    }
+
+    res.status(200).json(deletedProduct);
   } catch (error) {
-    logger.error("Error al eliminar el producto:", error);
-    res.status(500).json({ error: errors.unknownError });
+    console.error("Error al eliminar el producto:", error);
+    res.status(500).json({ error: 'Error desconocido' });
   }
 };
 

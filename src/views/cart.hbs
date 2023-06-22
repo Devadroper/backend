@@ -20,10 +20,16 @@
           </div>
         {{/each}}
         {{#if cart.products}}
-        <a href='/cart/{{cart._id}}/purchase'>Finalizar compra</a>
+          <form id="purchaseForm" method="post" action="">
+            <input type="submit" value="Finalizar compra" />
+          </form>
         {{/if}}
       </section>
 
     </main>
+    <script>
+      const form = document.getElementById('purchaseForm'); const cid = '{{cart._id}}';
+      form.action = `/api/carts/${cid}/purchase`;
+    </script>
   </body>
 </html>

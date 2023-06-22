@@ -17,7 +17,7 @@ const router = new Router();
 router.post("/", isUser, createCart);
 
 // Listar prods
-router.get("/:cid", isUser, getCart);
+router.get("/:cid", getCart);
 
 // Actuliza el carrito por el array del body
 router.put("/:cid", isUser, replaceCart);
@@ -25,7 +25,7 @@ router.put("/:cid", isUser, replaceCart);
 // Elimina todo el array
 router.delete("/:cid", isUser, emptyCart);
 
-router.get("/:cid/purchase", isUser, purchaseCart);
+router.post("/:cid/purchase", purchaseCart);
 
 // Agregar prod al arr de prods dentro del carrito seleccionado
 router.post("/:cid/product/:pid", isUser, addToCart);

@@ -27,4 +27,6 @@ sessionRouter.post('/reset-password', resetPassword);
 // Ruta para actualizar la contraseña
 sessionRouter.post('/update-password', updatePassword);
 
+// sessionRouter.post('/upload', uploadDoc)
+
 export default sessionRouter;
