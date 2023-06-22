@@ -1,9 +1,11 @@
 FROM node:16-alpine
 
-WORKDIR /server
+WORKDIR /src/server
 
 COPY package*.json ./
 
 RUN npm install --omit=dev
 
-CMD [ "npm", "start" ]
+COPY ./src ./src
+
+CMD ["npm", "start"]
