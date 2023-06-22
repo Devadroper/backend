@@ -8,4 +8,4 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-CMD [ “npm”, “start” ]
+CMD [ "npm", "start" ]
