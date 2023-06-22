@@ -37,3 +37,5 @@ Implementaciones:
 - Modelo user.model.js.
 - Carpeta "sessions" para grabar en mongo los usuarios conectados.
 - Ruta views.router.js para agregar todas las views que se reflejan de .hbs.
+
+Cerrando backend

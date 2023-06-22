@@ -4,6 +4,7 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import { userModel } from "../dao/models/users.model.js";
 import { cartModel } from "../dao/models/carts.model.js";
 import { hashPassword } from "../utils.js";
+import config from "../config/config.js";
 import "dotenv/config";
 
 passport.use(
@@ -42,7 +43,7 @@ passport.use(
       scope: [ 'user:email' ],
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/login/github/callback",
+      callbackURL: `${config.rail}/login/github/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       // uso profile.emails[0].value porque el profile._json.email no funciona

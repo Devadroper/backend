@@ -96,7 +96,7 @@ export const requestPasswordReset = async (req, res) => {
       from: 'noreply@example.com',
       to: email,
       subject: 'Restablecimiento de contraseña',
-      html: `<p>Haz clic <a href="http://localhost:8080/reset-password/${resetToken}">aquí</a> para restablecer tu contraseña.</p>`,
+      html: `<p>Haz clic <a href="${config.rail}/reset-password/${resetToken}">aquí</a> para restablecer tu contraseña.</p>`,
     };
 
     await transporter.sendMail(mailOptions);
