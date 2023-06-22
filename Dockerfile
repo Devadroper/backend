@@ -1,9 +1,10 @@
 FROM node:16-alpine
 
-WORKDIR /app
+WORKDIR /src/app
 
 COPY package*.json ./
+COPY . .
 
-RUN npm i
+RUN npm install --omit=dev
 
-CMD [ “npm”, “start” ]
+CMD [ "npm", "start" ]
