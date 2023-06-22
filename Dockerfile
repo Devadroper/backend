@@ -6,4 +6,6 @@ COPY package*.json ./
 
 RUN npm install --omit=dev
 
-CMD [ "npm", "start" ]
+COPY ./src ./src
+
+CMD ["npm", "start"]
