@@ -20,6 +20,7 @@
           </div>
         {{/each}}
         {{#if cart.products}}
+          <button onclick="emptyCart('{{cart._id}}')">Borrar carrito</button>
           <form id="purchaseForm" method="post" action="">
             <input type="submit" value="Finalizar compra" />
           </form>
@@ -30,6 +31,18 @@
     <script>
       const form = document.getElementById('purchaseForm'); const cid = '{{cart._id}}';
       form.action = `/api/carts/${cid}/purchase`;
+
+      function emptyCart(cartId) {
+      fetch(`/cart/${cartId}`, { method: 'DELETE' })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = '/'; // Redirige a la página principal después de borrar el carrito
+        } else {
+          console.error('Failed to delete cart');
+        }
+      })
+      .catch(error => console.error(error));
+  }
     </script>
   </body>
 </html>

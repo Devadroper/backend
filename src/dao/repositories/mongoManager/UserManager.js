@@ -117,7 +117,7 @@ class UserManager {
     }
   }
 
-  async deleteUser() {
+  async deleteUsers() {
     try {
       const inactiveThreshold = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
       const inactiveUsers = await userModel.find({
@@ -126,7 +126,7 @@ class UserManager {
 
       for (const user of inactiveUsers) {
         const mailOptions = {
-          from: "your_email@example.com",
+          from: "noreply@example.com",
           to: user.email,
           subject: "Eliminación de cuenta por inactividad",
           text: "Su cuenta ha sido eliminada debido a la falta de actividad en los últimos días.",

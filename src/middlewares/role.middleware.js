@@ -19,6 +19,7 @@ export const isAdmin = (req, res, next) => {
 
 export const isPremium = (req, res, next) => {
   const role = req.session.role;
+  console.log(role);
   if (role === "premium" || role === "admin") {
     next();
   } else {

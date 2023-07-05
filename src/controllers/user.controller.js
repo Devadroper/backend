@@ -21,14 +21,7 @@ export const githubCallback = (req, res) => {
 
 export const loginGet = (req, res) => {
   try {
-    req.session.destroy((err) => {
-      if (err) {
-        console.log(err);
-        res.json({ error: err });
-      } else {
-        res.render("login");
-      }
-    });
+    res.render('login')
   } catch (error) {
     logger.error('Error al realizar GET en el login:', error);
     res.status(500).json({ error: 'Error al realizar GET en el login' });
@@ -42,7 +35,7 @@ export const loginPost = async (req, res) => {
 
     if (user) {
       req.session.email = email;
-      req.session.role = user.role;
+      req.session.role = user[0].role
       res.redirect(`/products/${user[0].id}`);
     } else {
       res.redirect("/errorLogin");
@@ -196,13 +189,13 @@ export const changeRole = async (req, res) => {
 };
 
 export const getUsersInfo = async (req, res) => {
-  users = await userManager.getUserInfo()
+  const users = await userManager.getUserInfo()
   res.json(users)
 }
 
 export const deleteInactiveUsers = async (req, res) => {
   try {
-    await MongoManager.deleteInactiveUsers();
+    await userManager.deleteUsers();
     res.status(200).json({ message: 'Usuarios inactivos eliminados y correos enviados correctamente' });
   } catch (err) {
     res.status(500).json({ error: 'Error al eliminar usuarios inactivos' });
